@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36429.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectWebAPI", "RentospectWebAPI.csproj", "{01A4B7DC-0A04-4CCA-B9AF-54BAA12E68BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectShared", "..\RentospectWebShared\RentospectShared.csproj", "{B9B1D344-8676-4E35-A967-717DF5BCEF24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectWebApp", "..\RentospectWebApp\RentospectWebApp.csproj", "{69479C6C-26C3-4795-ACE4-6C7FDB1F8684}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectMobileApp", "..\RentospectMobileApp\RentospectMobileApp.csproj", "{5245E85B-A1D0-4F9E-8A29-773DDBB28275}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{01A4B7DC-0A04-4CCA-B9AF-54BAA12E68BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A4B7DC-0A04-4CCA-B9AF-54BAA12E68BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A4B7DC-0A04-4CCA-B9AF-54BAA12E68BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A4B7DC-0A04-4CCA-B9AF-54BAA12E68BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9B1D344-8676-4E35-A967-717DF5BCEF24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9B1D344-8676-4E35-A967-717DF5BCEF24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9B1D344-8676-4E35-A967-717DF5BCEF24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9B1D344-8676-4E35-A967-717DF5BCEF24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69479C6C-26C3-4795-ACE4-6C7FDB1F8684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69479C6C-26C3-4795-ACE4-6C7FDB1F8684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69479C6C-26C3-4795-ACE4-6C7FDB1F8684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69479C6C-26C3-4795-ACE4-6C7FDB1F8684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CA18A007-A7DE-4A48-9F6A-C436C2727C24}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+@RentospectWebAPI_HostAddress = http://localhost:5169
+
+GET {{RentospectWebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
