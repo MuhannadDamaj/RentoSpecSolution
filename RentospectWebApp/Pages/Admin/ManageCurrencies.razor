@@ -1,0 +1,138 @@
+﻿@page "/admin/manage-curencies"
+@inject ICurrencyApi CurrencyApi
+<div class="container">
+    <h1>Currencies</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4 col-ms-3">
+            <EditForm Model="_currency" OnSubmit="SaveCurrencyAsync">
+
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="m-0">Add/Edit Currency</h4>
+                        <div class="card-body">
+                            <label class="form-label">
+                                Currency Name
+                            </label>
+                            <InputText @bind-Value="_currency.Name" class="form-control form-control-sm"></InputText>
+                            <InputText @bind-Value="_currency.Symbol" class="form-control form-control-sm"></InputText>
+                            <InputCheckbox @bind-Value="_currency.IsActive" class="form-check-input" />
+                        </div>
+                        @if (_errorMessage != null)
+                        {
+                            <div class="mb-3 border border-danger border-1 d-flex justify-content-between gap-2">
+                                <p class="m-0">@_errorMessage</p>
+                                <button type="button" class="btn btn-sm btn-danger" @onclick="() => _errorMessage = null"></button>
+                            </div>
+                        }
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="button" class="btn btn-sm btn-danger" @onclick="Cancel">Cancel</button>
+                                <submit type="button" class="btn btn-sm btn-success" @onclick="SaveCurrencyAsync">Save</submit>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </EditForm>
+        </div>
+        <div class="col-md-8 col-sm-6 ms-auto">
+            <table class="tabel table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Active</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!_currencies.Any())
+                    {
+                        <tr>
+                            <td colspan="5"><p class="text-danger h5">No currencies found</p></td>
+                        </tr>
+                    }
+                    else
+                    {
+
+                        int number = 0;
+                        @foreach (var curr in _currencies)
+                        {
+                            <tr>
+                                <td>
+                                    @(number++)
+                                </td>
+                                <td>
+                                    @curr.ID
+                                </td>
+                                <td>
+                                    @curr.Name
+                                </td>
+                                <td>
+                                    @curr.Symbol
+                                </td>
+                                <td>
+                                    @curr.IsActive
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" @onclick="() => OnEditCurrency(curr)">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+@code {
+    private CurrencyDto[] _currencies = [];
+    private CurrencyDto _currency = new();
+    public bool _isBusy;
+    public string? _errorMessage;
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadCurrencies();
+    }
+    private async Task LoadCurrencies() =>
+        _currencies = await CurrencyApi.GetCurrenciesAsync();
+
+    private void OnEditCurrency(CurrencyDto currecny)
+    {
+        _currency = currecny;
+    }
+    private async Task SaveCurrencyAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            var response = await CurrencyApi.SaveCurrencyAsync(_currency);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+            await LoadCurrencies();      // reload the list
+            _currency = new CurrencyDto(); // clear form for new entry
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private void Cancel()
+    {
+        _currency = new CurrencyDto(); // clear the form
+
+    }
+}

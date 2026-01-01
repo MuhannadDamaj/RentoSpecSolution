@@ -1,0 +1,122 @@
+is_global = true
+build_property.RefitInternalNamespace = RentospectWebApp
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net9.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = RentospectWebApp
+build_property.RootNamespace = RentospectWebApp
+build_property.ProjectDir = C:\RealEstate\RealEstateGCC\RentospectWebApp\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\RealEstate\RealEstateGCC\RentospectWebApp
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 9.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Layout/EmptyLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XEVtcHR5TGF5b3V0LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Layout/NavBar.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdkJhci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/Component.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQ29tcG9uZW50LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ConfirmDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cQ29uZmlybURpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageBranches.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQnJhbmNoZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageCar.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQ2FyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageCarClassDamage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQ2FyQ2xhc3NEYW1hZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageCarClasses.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQ2FyQ2xhc3Nlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageCarInspections.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQ2FySW5zcGVjdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageCompanies.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQ29tcGFuaWVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageCurrencies.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlQ3VycmVuY2llcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageDamages.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlRGFtYWdlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageInspections.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlSW5zcGVjdGlvbnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/ManageUsers.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cTWFuYWdlVXNlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/UploadExcel.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cVXBsb2FkRXhjZWwucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Admin/_imports.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5cX2ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Auth/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aFxMb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Counter.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Pages/Weather.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2VhdGhlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-03ktu0wp63
+
+[C:/RealEstate/RealEstateGCC/RentospectWebApp/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ettffz6db1

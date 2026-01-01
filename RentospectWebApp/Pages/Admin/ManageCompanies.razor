@@ -1,0 +1,185 @@
+﻿@page "/admin/manage-companies"
+@inject ICompanyApi CompanyApi
+@inject ICurrencyApi CurrencyApi
+@inject AuthStateProvider AuthStateProvider
+
+<div class="container">
+
+    <div class="card p-3 mb-4">
+        <div class="row">
+            <EditForm Model="_companyDto" OnValidSubmit="SaveCompanyAsync">
+                <DataAnnotationsValidator />
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="m-0">Company Settings</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Company Name</label>
+                                        <InputText class="form-control" @bind-Value="_companyDto.Name"></InputText>
+                                        <ValidationMessage For="() => _companyDto.Name" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        @if (_companyDto != null)
+                                        {
+                                            @if (_companyDto?.LogoBytes?.Length > 0)
+                                            {
+                                                <img src="data:image/png;base64,@Convert.ToBase64String(_companyDto.LogoBytes)"
+                                                     alt="Company Logo"
+                                                     style="max-width:100px; height:100px;border:solid" />
+                                            }
+                                            else
+                                            {
+                                                <p>No logo available</p>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Upload Logo</label>
+                                        <InputFile accept="image/*" OnChange="HandleLogoUpload" class="form-control"></InputFile>
+                                        <ValidationMessage For="() => _companyDto.Logo" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Designated Email</label>
+                                        <InputText class="form-control" @bind-Value="_companyDto.DesignatedEmail"></InputText>
+                                        <ValidationMessage For="() => _companyDto.DesignatedEmail" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">T&C Message</label>
+                                        <InputTextArea rows="3" class="form-control" @bind-Value="_companyDto.TermsAndConditionsMessage"></InputTextArea>
+                                        <ValidationMessage For="() => _companyDto.TermsAndConditionsMessage" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">CheckIn Email Body</label>
+                                        <InputTextArea rows="3" class="form-control" @bind-Value="_companyDto.CheckInEmailTemplate"></InputTextArea>
+                                        <ValidationMessage For="() => _companyDto.CheckInEmailTemplate" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">CheckOut Email Body</label>
+                                        <InputTextArea rows="3" class="form-control" @bind-Value="_companyDto.CheckOutEmailTemplate"></InputTextArea>
+                                        <ValidationMessage For="() => _companyDto.CheckOutEmailTemplate" />
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Partial CheckOut Email Body</label>
+                                        <InputTextArea rows="3" class="form-control" @bind-Value="_companyDto.PartialCheckOutEmailTemplate"></InputTextArea>
+                                        <ValidationMessage For="() => _companyDto.PartialCheckOutEmailTemplate" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer d-flex justify-content-between align-items-center">
+                            <div>
+                                <button type="button" class="btn-cancel" @onclick="AskCancel">Cancel</button>
+                                <button type="submit" class="btn-save">Save Company</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </EditForm>
+        </div>
+
+    </div>
+    <ConfirmDialog @ref="confirmDialog" OnClose="HandleConfirm" />
+</div>
+
+@code {
+    private ConfirmDialog? confirmDialog;
+    private List<CompanyDto> _companiesDto = new List<CompanyDto>();
+    private CompanyDto _companyDto = new();
+    public bool _isBusy;
+    public string? _errorMessage;
+    public string? _successMessage;
+    protected override async Task OnInitializedAsync()
+    {
+        _companyDto = await CompanyApi.GetCompanyByIDAsync(AuthStateProvider._user.CompanyID);
+    }
+    private async Task SaveCompanyAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            _errorMessage = null;
+            _successMessage = null;
+
+            var response = await CompanyApi.SaveCompanyAsync(_companyDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                confirmDialog?.Show(_errorMessage, "Error", false);
+                return;
+            }
+            else
+            {
+                _successMessage = "Company saved successfully!";
+                confirmDialog?.Show(_successMessage, "Success", false);
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+            confirmDialog?.Show(_errorMessage, "Error", false);
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private async Task HandleLogoUpload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null) return;
+
+        using var stream = file.OpenReadStream(10 * 1024 * 1024);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+
+        _companyDto.LogoBytes = ms.ToArray();
+        _companyDto.Logo = $"/uploads/{Guid.NewGuid()}_{file.Name}";
+
+        // Force Blazor to revalidate the field
+        var editContext = new EditContext(_companyDto);
+        editContext.NotifyFieldChanged(FieldIdentifier.Create(() => _companyDto.Logo));
+    }
+    private async Task Cancel()
+    {
+        _companyDto = await CompanyApi.GetCompanyByIDAsync(AuthStateProvider._user.CompanyID);
+    }
+
+
+    private void AskCancel()
+    {
+        confirmDialog?.Show("Are you sure you want to cancel enterd info?", "Cancel Confirmation");
+    }
+
+    private async Task HandleConfirm(bool confirmed)
+    {
+        if (confirmed)
+        {
+            _companyDto = await CompanyApi.GetCompanyByIDAsync(AuthStateProvider._user.CompanyID);
+            return;
+        }
+    }
+}

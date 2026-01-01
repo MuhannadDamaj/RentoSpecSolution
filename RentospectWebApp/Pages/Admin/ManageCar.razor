@@ -1,0 +1,338 @@
+﻿@page "/admin/manage-cars"
+
+@inject ICarApi CarApi
+@inject ICarClassApi CarClassApi
+@inject ICarModelApi CarModelApi
+@inject ICarMakeApi CarMakeApi
+@inject ICarCategoryApi CarCategoryApi
+@inject ICompanyApi CompanyApi
+@inject IUploadApi UploadApi
+@inject NavigationManager Navigation
+@inject AuthStateProvider AuthStateProvider
+<div class="container">
+    <h1 class="page-title">Cars</h1>
+    <hr class="divider" />
+    <div class="template-download">
+        <button class="btn-download" @onclick="DownloadCarTemplate">
+            <i class="bi bi-download"></i> Download Cars Template
+        </button>
+    </div>
+    <div class="upload-container">
+        <label class="upload-box">
+            <InputFile OnChange="OnInputFileChange" class="d-none" accept=".xlsx" />  <!-- Hidden input -->
+            <div class="upload-content">
+                <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                <p class="upload-title">Upload Car Excel File</p>
+                <p class="upload-subtitle">Drag & drop or click to browse</p>
+            </div>
+        </label>
+
+        <!-- Upload info directly under the box -->
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="upload-info mt-2">@Message</div>
+        }
+    </div>
+    <hr class="divider" />
+
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" @onclick="ShowAddCar">
+            <i class="bi bi-plus-circle me-2"></i> Add Car
+        </button>
+        <input class="form-control w-25" placeholder="Search..." @bind="searchTerm" />
+    </div>
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Plate #</th>
+                <th>Year</th>
+                <th>Color</th>
+                <th>MVA #</th>
+                <th>Class</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in FilteredCars)
+            {
+                <tr>
+                    <td>@car.PlateNumber</td>
+                    <td>@car.Year</td>
+                    <td>@car.Color</td>
+                    <td>@car.MVA_Number</td>
+                    <td>@GetCarClassName(car.CarClassId)</td>
+                    <td>@car.CarMake</td>
+                    <td>@car.CarModel</td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-1" @onclick="() => EditCar(car)">
+                            <i class="bi bi-pencil-square" fs-6></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteCar(car)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (showAddForm)
+    {
+        <div class="card p-3 mb-4">
+            <div class="row">
+                <EditForm Model="_carDto" OnValidSubmit="SaveCarAsync">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="m-0">Add/Edit Car</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Plate #</label>
+                                            <InputText class="form-control" @bind-Value="_carDto.PlateNumber"></InputText>
+                                            <ValidationMessage For="() => _carDto.PlateNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Year</label>
+                                            <InputNumber class="form-control" @bind-Value="_carDto.Year"></InputNumber>
+                                            <ValidationMessage For="() => _carDto.Year" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Color</label>
+                                            <InputText class="form-control" @bind-Value="_carDto.Color"></InputText>
+                                            <ValidationMessage For="() => _carDto.Color" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">MVA #</label>
+                                            <InputText class="form-control" @bind-Value="_carDto.MVA_Number"></InputText>
+                                            <ValidationMessage For="() => _carDto.MVA_Number" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Classes</label>
+                                            <InputSelect class="form-control" @bind-Value="_carDto.CarClassId">
+                                                <option value="0">Select Class</option>
+                                                @foreach (var cls in _carClasses)
+                                                {
+                                                    <option value="@cls.ID">@cls.Name</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="() => _carDto.CarClassId" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Make</label>
+                                            <InputText class="form-control" @bind-Value="_carDto.CarMake"></InputText>
+                                            <ValidationMessage For="() => _carDto.CarMake" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Model</label>
+                                            <InputText class="form-control" @bind-Value="_carDto.CarModel"></InputText>
+                                            <ValidationMessage For="() => _carDto.CarModel" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="button" class="btn-cancel" @onclick="Cancel">Cancel</button>
+                                    <button type="submit" class="btn-save">Save Car</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+@code {
+    #region declarations
+    private List<CarDto> _carDtos = new List<CarDto>();
+    private CarDto _carDto = new();
+    public bool _isBusy;
+    public string? _errorMessage;
+    private string searchTerm;
+    private bool showAddForm = false;
+    private string Message;
+    private UploadResultDto UploadResult;
+    #endregion
+
+    #region Related Tables
+    private CarClassDto[] _carClasses = [];
+    private CarCategoryDto[] _carCategories = [];
+    private CarMakeDto[] _carMakes = [];
+    private CarModelDto[] _carModels = [];
+    private async Task InitRelatedData()
+    {
+        _carClasses = await CarClassApi.GetCarClassesAsync();
+        _carCategories = await CarCategoryApi.GetCarCategoriesAsync();
+        _carMakes = await CarMakeApi.GetCarMakesAsync();
+        _carModels = await CarModelApi.GetCarModelAsync();
+    }
+    private string GetCarClassName(int id)
+    {
+        var carClass = _carClasses.FirstOrDefault(c => c.ID == id);
+        return carClass?.Name ?? "-";
+    }
+    private string GetCarModelName(int id)
+    {
+        var carModel = _carModels.FirstOrDefault(c => c.ID == id);
+        return carModel?.Name ?? "-";
+    }
+    private string GetCarMakeName(int id)
+    {
+        var carMake = _carMakes.FirstOrDefault(c => c.ID == id);
+        return carMake?.Name ?? "-";
+    }
+    private string GetCarCategoryName(int id)
+    {
+        var carCategory = _carCategories.FirstOrDefault(c => c.ID == id);
+        return carCategory?.Name ?? "-";
+    }
+    #endregion
+    #region Functions
+    private void EditCar(CarDto carDto)
+    {
+        _carDto = new CarDto
+        {
+            ID = carDto.ID,
+            CarClassId = carDto.CarClassId,
+            MVA_Number = carDto.MVA_Number,
+            Color = carDto.Color,
+            IsActive = carDto.IsActive,
+            PlateNumber = carDto.PlateNumber,
+            Year = carDto.Year,
+            CarMake = carDto.CarMake,
+            CarModel = carDto.CarModel
+        };
+
+        showAddForm = true;
+    }
+    private async Task DeleteCar(CarDto carDto)
+    {
+        if (carDto != null)
+        {
+            bool confirmed = true;
+            if (confirmed)
+            {
+                var carToBeUpdated = _carDtos.FirstOrDefault(car => car.ID.Equals(car.ID));
+                if (carToBeUpdated != null)
+                {
+                    carToBeUpdated.IsActive = false;
+                    await CarApi.SaveCarAsync(carToBeUpdated);
+                    await LoadCars();
+                }
+            }
+        }
+    }
+    private void ShowAddCar()
+    {
+        _carDto = new CarDto(); // Reset for new entry
+        showAddForm = true;
+    }
+    private async Task LoadCars() =>
+                        _carDtos = (await CarApi.GetCarsAsync()).ToList();
+    private void OnEditCar(CarDto car)
+    {
+        _carDto = car;
+    }
+    private async Task SaveCarAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            var response = await CarApi.SaveCarAsync(_carDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+            await LoadCars();      // reload the list
+            _carDto = new CarDto(); // clear form for new entry
+            showAddForm = false;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private void Cancel()
+    {
+        // Reset the model
+        _carDto = new CarDto();
+
+        // Hide the form
+        showAddForm = false;
+    }
+    #endregion
+    private IEnumerable<CarDto>
+            FilteredCars =>
+                        string.IsNullOrWhiteSpace(searchTerm)
+                        ? _carDtos
+                        : _carDtos.Where(c => c.MVA_Number.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+    protected override async Task OnInitializedAsync()
+    {
+        await InitRelatedData();
+        await LoadCars();
+    }
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null)
+        {
+            Message = "No file selected!";
+            return;
+        }
+
+        using var ms = new MemoryStream();
+        await file.OpenReadStream(maxAllowedSize: 20 * 1024 * 1024).CopyToAsync(ms);
+        ms.Position = 0;
+
+        var content = new MultipartFormDataContent();
+        var fileContent = new StreamContent(ms);
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+        content.Add(fileContent, "file", file.Name);
+
+        try
+        {
+            UploadResult = await UploadApi.UploadExcel(AuthStateProvider._user.CompanyID,content);
+            Message = "Upload finished!";
+            await LoadCars();
+        }
+
+        catch (Exception ex)
+        {
+            Message = $"Upload failed: {ex.Message}";
+        }
+    }
+    private void DownloadCarTemplate()
+    {
+        Navigation.NavigateTo("/templates/rentospect_car_template.xlsx", forceLoad: true);
+    }
+}

@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RentospectMobileApp.Views.CaptureVehicleImagesView"
+             xmlns:viewmodels="clr-namespace:RentospectMobileApp.ViewModels"
+             xmlns:converters="clr-namespace:RentospectMobileApp.Converters"
+             x:Name="CaptureVehicleImagesPage">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
+    <VerticalStackLayout Margin="10,0,10,0"  Spacing="5">
+        <Border 
+        Stroke="#bbf7d0"
+        StrokeThickness="1"
+        StrokeShape ="RoundRectangle 8"
+        BackgroundColor="White"
+        Padding="5">
+            <Grid ColumnDefinitions="2*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+                <Label 
+                    Grid.Column="0"
+                    FontSize="16"
+                    Grid.Row="0" 
+                    Grid.ColumnSpan="2" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Capture Vehicle Images"
+                    Padding="0,0,0,10"></Label>
+                <Border 
+                    VerticalOptions="Start"
+                    HorizontalOptions="End"
+                    WidthRequest="40"
+                    HeightRequest="20"
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Stroke="#bbf7d0"
+                    StrokeThickness="1"
+                    StrokeShape ="RoundRectangle 8"
+                    BackgroundColor="White"
+                    >
+                    <Label 
+                    HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                
+                                <Span Text="{Binding PhotosCounter}" 
+                                        FontSize="12" 
+                                    FontFamily="sans-serif"
+                                TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </Border>
+                <Image HeightRequest="40" WidthRequest="40" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Source="camera.svg"></Image>
+                <Label 
+                    HorizontalOptions="Center"
+                    Grid.Column="0"
+                    FontSize="14"
+                    Grid.Row="2" 
+                    Grid.ColumnSpan="2" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Ready to start capturing images"/>
+                <Border 
+                        Margin="0,10,0,10"
+                        BackgroundColor="#4ca1af" 
+                        HeightRequest="40" 
+                        Grid.Row="3" 
+                        Grid.Column="0" 
+                        Grid.ColumnSpan="2"
+                        StrokeShape ="RoundRectangle 8">
+                    <HorizontalStackLayout Spacing="5" HorizontalOptions="Center">
+                        <Image HorizontalOptions="End" Grid.Column="0" HeightRequest="20" WidthRequest="20"
+                                Source="camerawhite.svg">
+                            <Image.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding CapturePhotoCommand}"
+                                CommandParameter="{Binding .}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                        <Label 
+                                Margin="10,0,0,0"
+                                HorizontalOptions="Start"
+                                TextColor="White" 
+                                VerticalOptions="Center" 
+                                Grid.Column="1" 
+                                Text="Start Camera"></Label>
+                    </HorizontalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding CapturePhotoCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
+                <Border  
+                        HeightRequest="40" 
+                        Grid.Row="5" 
+                        Grid.Column="0" 
+                        Grid.ColumnSpan="2"
+                        Margin="0,0,0,5"
+                        StrokeShape ="RoundRectangle 8">
+                    <Label 
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Add Demo Photo " 
+                                      FontSize="14" 
+                                      FontFamily="sans-serif"
+                                      TextColor="#333333"/>
+                                <Span Text="{Binding PhotosCounter}" 
+                                      FontSize="12" 
+                                      FontFamily="sans-serif"
+                                      TextColor="#333333"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
+                    </Label>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer  Command="{Binding LoadTestPhotosCommand}">
+                            
+                        </TapGestureRecognizer>
+                    </Border.GestureRecognizers>
+                </Border>
+            </Grid>
+
+        </Border>
+        <Border 
+            Stroke="#bbf7d0"
+            StrokeThickness="1"
+            StrokeShape ="RoundRectangle 8"
+            BackgroundColor="White"
+            HeightRequest="320"
+            Padding="10">
+            <CollectionView ItemsSource="{Binding Photos}" SelectionMode="None">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Horizontal" Span="3" HorizontalItemSpacing="2" VerticalItemSpacing="2"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Border Padding="0" StrokeShape="RoundRectangle 5">
+                                <Image Source="{Binding .}" 
+                           HorizontalOptions="Center" 
+                           Aspect="AspectFill" 
+                           HeightRequest="120" 
+                           WidthRequest="140">
+                                    <Image.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaptureVehicleImagesViewModel}}, Path=ShowImageCommand}"
+                            CommandParameter="{Binding .}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShowImageCommand}" CommandParameter ="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                            <ImageButton 
+                                Source="newdelete.svg"  
+                                CornerRadius="12"
+                                WidthRequest="5"
+                                HeightRequest="5"
+                                Padding="2"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaptureVehicleImagesViewModel}}, Path=DeletePhotoCommand}"
+                                CommandParameter="{Binding .}"
+                                HorizontalOptions="End"
+                                VerticalOptions="Start"
+                    />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </Border>
+        <Grid Margin="0,10,0,0" ColumnSpacing="5" ColumnDefinitions="*,*">
+            <Border  HeightRequest="40" Grid.Column="0" StrokeShape ="RoundRectangle 8">
+                <Grid ColumnDefinitions="*,*">
+                    <Image Grid.Column="0" HeightRequest="20" WidthRequest="20"
+                           Source="arrowleftblack.svg"/>
+                    <Label HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="1" Text="Back"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped ="TapGestureRecognizer_Tapped" ></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border 
+                    BackgroundColor="#4ca1af" 
+                    HeightRequest="40" 
+                    Grid.Column="1" 
+                    StrokeShape ="RoundRectangle 8">
+                <Grid  ColumnDefinitions="2*,*">
+                    <Image 
+                            Grid.Column="1" 
+                            HeightRequest="20" 
+                            WidthRequest="20"
+                            Source="arrowrightwight.svg"/>
+                    <Label 
+                        TextColor="White" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" 
+                        Grid.Column="0" 
+                        Text="Continue"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:CaptureVehicleImagesViewModel}}, Path=GoToAIProcessingCommand}"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

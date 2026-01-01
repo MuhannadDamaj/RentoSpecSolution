@@ -1,0 +1,53 @@
+﻿@inherits LayoutComponentBase
+
+@if (Visible)
+{
+    <div class="overlay">
+        <div class="dialog">
+            <h3>@Title</h3>
+            <p>@Message</p>
+            @if (IsYesNo)
+            {
+                <div class="actions">
+                    <button class="btn btn-danger" @onclick="() => Close(true)">Yes</button>
+                    <button class="btn btn-secondary" @onclick="() => Close(false)">No</button>
+                </div>
+            }
+            else
+            {
+                <div class="actions">
+                    <button class="btn btn-secondary" @onclick="() => Confirm()">Ok</button>
+                </div>
+            }
+
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public string Title { get; set; } = "Confirm";
+    [Parameter] public string Message { get; set; } = "Are you sure?";
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+    [Parameter] public bool IsYesNo { get; set; } = true;
+
+    private bool Visible { get; set; }
+
+    public void Show(string message, string title = "Confirm", bool isYesNo = true)
+    {
+        Message = message;
+        Title = title;
+        Visible = true;
+        IsYesNo = isYesNo;
+        StateHasChanged();
+    }
+
+    private async Task Close(bool confirmed)
+    {
+        Visible = false;
+        await OnClose.InvokeAsync(confirmed);
+    }
+    private void Confirm()
+    {
+        Visible = false;
+    }
+}

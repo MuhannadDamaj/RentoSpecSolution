@@ -1,0 +1,251 @@
+﻿@page "/admin/manage-branches"
+@inject ICompanyApi CompanyApi
+@inject IBranchApi  BranchApi
+
+<div class="container">
+    <h1 class="page-title">Branches</h1>
+    <hr class="divider" />
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" @onclick="ShowAddBranch">
+            <i class="bi bi-plus-circle me-2"></i> Add Branch
+        </button>
+        <input class="form-control w-25" placeholder="Search..." @bind="searchTerm" />
+    </div>
+
+    <!-- Branch Table -->
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var branch in FilteredBranches)
+            {
+                <tr>
+                    <td>@branch.Code</td>
+                    <td>@branch.Name</td>
+                    <td>@GetCompanyName(branch.CompanyID)</td>
+                    <td>@branch.Address</td>
+                    <td>@branch.Email</td>
+                    <td>@branch.PhoneNumber</td>
+                    <td>
+                        @if (branch.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-1" @onclick="() => EditBranch(branch)">
+                            <i class="bi bi-pencil-square" fs-6></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteBranch(branch)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (showAddForm)
+    {
+        <div class="card p-3 mb-4">
+            <div class="row">
+                <EditForm Model="_branchDto" OnValidSubmit="SaveBranchAsync">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="m-0">Add/Edit Branch</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Branch Code</label>
+                                            <InputText class="form-control" @bind-Value="_branchDto.Code"></InputText>
+                                            <ValidationMessage For="() => _branchDto.Code" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Branch Name</label>
+                                            <InputText class="form-control" @bind-Value="_branchDto.Name"></InputText>
+                                            <ValidationMessage For="() => _branchDto.Name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Companies</label>
+                                            <InputSelect class="form-control" @bind-Value="_branchDto.CompanyID">
+                                                <option value="0">Select Company</option>
+                                                @foreach (var comp in _companies)
+                                                {
+                                                    <option value="@comp.ID">@comp.Name</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="() => _branchDto.CompanyID" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Branch Email</label>
+                                            <InputText class="form-control" @bind-Value="_branchDto.Email"></InputText>
+                                            <ValidationMessage For="() => _branchDto.Email" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Adress</label>
+                                            <InputText class="form-control" @bind-Value="_branchDto.Address"></InputText>
+                                            <ValidationMessage For="() => _branchDto.Address" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone #</label>
+                                            <InputText class="form-control" @bind-Value="_branchDto.PhoneNumber"></InputText>
+                                            <ValidationMessage For="() => _branchDto.PhoneNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Notes</label>
+                                            <InputTextArea rows="2" class="form-control" @bind-Value="_branchDto.Notes"></InputTextArea>
+                                            <ValidationMessage For="() => _branchDto.Address" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="button" class="btn-cancel" @onclick="Cancel">Cancel</button>
+                                    <button type="submit" class="btn-save">Save Branch</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+        </div>
+    }
+
+</div>
+@code {
+    private List<BranchDto> _branchesDto = new List<BranchDto>();
+    private BranchDto _branchDto = new();
+    private CompanyDto[] _companies = [];
+    public bool _isBusy;
+    public string? _errorMessage;
+
+    private string searchTerm;
+    private bool showAddForm = false;
+    private IEnumerable<BranchDto> FilteredBranches =>
+    string.IsNullOrWhiteSpace(searchTerm)
+        ? _branchesDto
+        : _branchesDto.Where(b => b.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                                  ||
+                                  b.Code.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+    private void EditBranch(BranchDto branch)
+    {
+        _branchDto = new BranchDto
+        {
+            ID = branch.ID,
+            Name = branch.Name,
+            IsActive = branch.IsActive,
+            CompanyID = branch.CompanyID,
+            Address = branch.Address,
+            Code = branch.Code,
+            Email = branch.Email,
+            Notes = branch.Notes,
+            PhoneNumber = branch.PhoneNumber
+        };
+        showAddForm = true;
+    }
+    private async Task DeleteBranch(BranchDto branchDto)
+    {
+        if (branchDto != null)
+        {
+            bool confirmed = true;
+            if (confirmed)
+            {
+                var branchToBeUpdated = _branchesDto.FirstOrDefault(cmp => cmp.ID.Equals(branchDto.ID));
+                if (branchToBeUpdated != null)
+                {
+                    branchToBeUpdated.IsActive = false;
+                    await BranchApi.SaveBranchAsync(branchToBeUpdated);
+                    await LoadBranches();
+                }
+            }
+        }
+    }
+    private void ShowAddBranch()
+    {
+        _branchDto = new BranchDto(); // Reset for new entry
+        showAddForm = true;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        _companies = await CompanyApi.GetCompaniesAsync();
+        await LoadBranches();
+    }
+    private async Task LoadBranches() =>
+    _branchesDto = (await BranchApi.GetBranchesAsync()).ToList();
+    private void OnEditCurrency(BranchDto branch)
+    {
+        _branchDto = branch;
+    }
+    private async Task SaveBranchAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            var response = await BranchApi.SaveBranchAsync(_branchDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+            await LoadBranches();      // reload the list
+            _branchDto = new BranchDto(); // clear form for new entry
+            showAddForm = false;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private string GetCompanyName(int id)
+    {
+        var comp = _companies.FirstOrDefault(c => c.ID == id);
+        return comp?.Name ?? "-";
+    }
+    private void Cancel()
+    {
+        // Reset the model
+        _branchDto = new BranchDto();
+
+        // Hide the form
+        showAddForm = false;
+    }
+}
+

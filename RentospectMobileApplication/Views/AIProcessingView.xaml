@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RentospectMobileApp.Views.AIProcessingView"
+             xmlns:viewmodels="clr-namespace:RentospectMobileApp.ViewModels"
+             xmlns:converters="clr-namespace:RentospectMobileApp.Converters"
+             x:Name="CaptureVehicleImagesPage">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
+    <VerticalStackLayout Margin="10,0,10,0"  Spacing="5">
+        <Border 
+        Stroke="#bbf7d0"
+        StrokeThickness="1"
+        StrokeShape ="RoundRectangle 8"
+        BackgroundColor="White"
+        Padding="16">
+            <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                <Label 
+                    Grid.Column="0"
+                    FontSize="16"
+                    Grid.Row="0" 
+                    Grid.ColumnSpan="2" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Driver Information"
+                    Padding="0,0,0,30"></Label>
+                <Label 
+                        Grid.Column="0"
+                        FontSize="14"
+                        Grid.Row="1" 
+                        Grid.ColumnSpan="2" 
+                        FontFamily="sans-serif"
+                        TextColor="#4A5565"
+                        Text="Please fill in the driver details. The AI is processing your images in the background."
+                        Padding="0,0,0,30"></Label>
+                <Label 
+                        Grid.Column="0"
+                        FontSize="14"
+                        Grid.Row="3" 
+                        Grid.ColumnSpan="2" 
+                        FontFamily="sans-serif"
+                        TextColor="Black"
+                        Text="Driver Name*"
+                        Padding="0,10,0,5"/>
+                <Border 
+                        StrokeShape ="RoundRectangle 8"
+                        Stroke="#f8f9fa"
+                        BackgroundColor="#f8f9fa"
+                        HeightRequest="48"
+                        Grid.Row="4"
+                        Padding="0">
+                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                        <!-- Phone Icon -->
+                        <Image Source="user.svg" 
+                                    WidthRequest="20"
+                                    HeightRequest="20"
+                                    VerticalOptions="Center"
+                                    Margin="10,0,8,0" />
+                        <Entry 
+                                    Grid.Column="1"
+                                    PlaceholderColor="#848484"
+                                    Placeholder="Enter driver's full name."
+                                    BackgroundColor="Transparent"
+                                    VerticalOptions="Center"
+                                    Text="{Binding DriverName,Mode=TwoWay}"
+                                    Margin="0"/>
+                    </Grid>
+                </Border>
+                <Label 
+                    Grid.Column="0"
+                    FontSize="14"
+                    Grid.Row="5" 
+                    Grid.ColumnSpan="2" 
+                    FontFamily="sans-serif"
+                    TextColor="Black"
+                    Text="Email Address*"
+                    Padding="0,10,0,5"/>
+                <Border 
+                    StrokeShape ="RoundRectangle 8"
+                    Stroke="#f8f9fa"
+                    BackgroundColor="#f8f9fa"
+                    HeightRequest="48"
+                    Grid.Row="6"
+                    Padding="0">
+                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                        <Image Source="email2.svg" 
+                                WidthRequest="20"
+                                HeightRequest="20"
+                                VerticalOptions="Center"
+                                Margin="10,0,8,0" />
+                        <Entry 
+                                Grid.Column="1"
+                                PlaceholderColor="#848484"
+                                Placeholder="driver@example.com"
+                                BackgroundColor="Transparent"
+                                VerticalOptions="Center"
+                                Text="{Binding DriverEmail}"
+                                Margin="0"/>
+                    </Grid>
+                </Border>
+                <Label 
+                        Grid.Column="0"
+                        FontSize="14"
+                        Grid.Row="7" 
+                        Grid.ColumnSpan="2" 
+                        FontFamily="sans-serif"
+                        TextColor="Black"
+                        Text="Agreement Number*"
+                        Padding="0,10,0,5"/>
+                <Border 
+                        StrokeShape ="RoundRectangle 8"
+                        Stroke="#f8f9fa"
+                        BackgroundColor="#f8f9fa"
+                        HeightRequest="48"
+                        Grid.Row="8">
+                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="Auto,*">
+                        <Image Source="filetext.svg" 
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               VerticalOptions="Center"
+                                Margin="10,0,8,0" />
+                        <Entry 
+                              Grid.Column="1"
+                              PlaceholderColor="#848484"
+                              Placeholder="AGR001,RNT2025-001, etc"
+                              BackgroundColor="Transparent"
+                              VerticalOptions="Center"
+                              Text="{Binding AgreementNumber}"
+                              Margin="0"/>
+                    </Grid>
+
+                </Border>
+            </Grid>
+
+        </Border>
+        <Border 
+                Grid.Row="7" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2"
+                Stroke="White"
+                StrokeThickness="0"
+                HeightRequest="80"
+                StrokeShape ="RoundRectangle 12"
+                BackgroundColor="#eff6ff"
+                Margin="10,10,10,10">
+            <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="40,*">
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   Grid.Column="0" 
+                                   Grid.Row="0"
+                                   Grid.RowSpan="2"
+                                   IsVisible="{Binding IsBusy}"
+                                   Color="Gray"
+                                   WidthRequest="30"
+                                   HeightRequest="30" />
+                <Image Grid.Column="0" 
+                           IsVisible="False"
+                           Grid.Row="0"
+                           Grid.RowSpan="2"
+                           VerticalOptions="Center" 
+                           Source="sparkles.svg" 
+                           HeightRequest="25" 
+                           WidthRequest="25"></Image>
+                <Label 
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="10,10,10,5"
+                        FontSize="16"
+                        FontFamily="sans-serif"
+                        TextColor="#1C398E"
+                        Text="AI Processing Images"></Label>
+                <Label 
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="10,0,10,0"
+                        FontSize="14"
+                        FontFamily="sans-serif"
+                        TextColor="#193CB8"
+                        Text="Our AI is analyzing the captured photos for damage detection..."></Label>
+            </Grid>
+        </Border>
+        <Grid Margin="0,10,0,0" RowDefinitions="40,Auto" ColumnSpacing="5" ColumnDefinitions="*,*">
+            <Label HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" TextColor="#DC3545" Text="{Binding ValidationMessage}"></Label>
+            <Border  HeightRequest="40" Grid.Row="1" Grid.Column="0" StrokeShape ="RoundRectangle 8">
+                <Grid ColumnDefinitions="*,*">
+                    <Image Grid.Column="0" HeightRequest="20" WidthRequest="20"
+                   Source="arrowleftblack.svg"/>
+                    <Label HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="1" Text="Back"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped ="TapGestureRecognizer_Tapped" ></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border Grid.Row="1"
+            BackgroundColor="#4ca1af" 
+            HeightRequest="40" 
+            Grid.Column="1" 
+            StrokeShape ="RoundRectangle 8">
+                <Grid>
+                    <Label 
+                        TextColor="White" 
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center" 
+                        Grid.Column="0" 
+                        Text="Inspect"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:AIProcessingViewModel}}, Path=StartInspectionCommand}"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RentospectMobileApp.Views.PendingInspectionsView"
+             xmlns:converters="clr-namespace:RentospectMobileApp.Converters"
+             xmlns:rentospect="clr-namespace:RentospectShared.CommonEnum;assembly=RentospectShared"
+             x:Name="PendingInspectionPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+            <converters:StatusToColorConverter x:Key="StatusToColorConverter" />
+            <converters:StatusToTextColorConverter x:Key="StatusToTextColorConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid Grid.Row="0" RowDefinitions="Auto,Auto,*" Margin="10,0,10,0" RowSpacing="5">
+        <Border Stroke="Transparent" StrokeShape="RoundRectangle 8"  Padding="0" Margin="0" Grid.Row="0" BackgroundColor="#f8f9fa">
+            <SearchBar  Grid.Row="0" 
+                        Placeholder="Search by plate, agreement or driver number" 
+                        BackgroundColor="Transparent"
+                        Text="{Binding SearchText, Mode=TwoWay}"
+                        x:Name="PendingSearchBar"></SearchBar>
+        </Border>
+        <Grid Grid.Row="1" ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto">
+            <Border Grid.Row="0"  Grid.Column="0" Grid.ColumnSpan="2" VerticalOptions="Start"
+             HorizontalOptions="Center" 
+             Padding="10,0,10,0" Margin="0" 
+             BackgroundColor="#f8f9fa" 
+             Stroke="#E2E8ED"
+             StrokeShape="RoundRectangle 4">
+                <Grid ColumnSpacing="10" ColumnDefinitions="Auto,*,Auto">
+                    <Image HeightRequest="15" Grid.Column="0" Source="filter.svg" />
+                    <Picker Grid.Column="1"
+                    BackgroundColor="Transparent"
+                    Margin="0"
+                    FontSize="12" WidthRequest="120"
+                    HorizontalTextAlignment="Center"
+                    x:Name="InpectionPicker"
+                ItemsSource="{Binding InspectionTypes}"
+                ItemDisplayBinding="{Binding Name}"
+                SelectedItem="{Binding SelectedInspectionType, Mode=TwoWay}" >
+
+                    </Picker>
+                    <Image Grid.Column="2" Source="dropdownarrow.svg">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+            </Border>
+            <Border 
+            Grid.Row="1"  Grid.ColumnSpan="2" VerticalOptions="Start"
+            HeightRequest="40"
+            BackgroundColor="White" 
+            Stroke="#E2E8ED"
+            StrokeShape="RoundRectangle 4">
+                <Grid ColumnSpacing="5"
+                  HorizontalOptions="Center"
+                  ColumnDefinitions="Auto,Auto,20,Auto,Auto,20,Auto,Auto">
+                    <!-- From Label -->
+                    <Label Grid.Column="0" Text="From:" VerticalOptions="Center" FontSize="13" TextColor="#333" />
+                    <!-- From DatePicker -->
+                    <DatePicker x:Name="FromDatePicker"
+                            Grid.Column="1"
+                            Format="dd/MM/yyyy"
+                            VerticalOptions="Center"
+                            Date="{Binding FromDate, Mode=TwoWay}"
+                            BackgroundColor="Transparent" />
+                    <ImageButton Grid.Column="2"
+                             Source="calendar.svg"
+                             HeightRequest="15"
+                             BackgroundColor="Transparent" />
+                    <Label Grid.Column="3" Text="To:" VerticalOptions="Center" FontSize="13" TextColor="#333" />
+
+                    <!-- To DatePicker -->
+                    <DatePicker x:Name="ToDatePicker"
+                                Date="{Binding ToDate, Mode=TwoWay}"
+                                Grid.Column="4"
+                                Format="dd/MM/yyyy"
+                                VerticalOptions="Center"
+                                BackgroundColor="Transparent" />
+
+                    <!-- To Calendar Icon -->
+                    <ImageButton Grid.Column="5"
+                            Source="calendar.svg"
+                            HeightRequest="20"
+                            BackgroundColor="Transparent"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <ScrollView Grid.Row="2" 
+                Grid.ColumnSpan="2" Orientation="Vertical" >
+            <CollectionView 
+            ItemsSource="{Binding FilteredInspections}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+            Padding="10" 
+            Margin="5" 
+            Stroke="#E2E8ED"
+            StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="*,*,35" RowDefinitions="Auto,Auto,Auto,Auto">
+                                <Label Grid.Row="0" Grid.Column="0" Padding="0,2,0,5"
+                           Text="{Binding InspectionNumber}" 
+                           FontSize="18" 
+                            FontFamily="sans-serif" 
+                            TextColor="#333333"/>
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding AgreementNumber}" 
+                            Padding="0,0,0,5"
+                            FontSize="14"
+                            FontFamily="sans-serif"
+                            TextColor="#4A5565"/>
+                                <Label Grid.Row="2" Grid.Column="0" Text="Muhannad Damaj" 
+                           Padding="0,0,0,5"
+                           FontSize="14"
+                           TextColor="#6A7282"
+                           FontFamily="sans-serif" />
+                                <Label Grid.Row="3" Text="{Binding InspectionDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="14" />
+                                <ImageButton 
+                        Grid.Column="2" 
+                        Grid.Row="0" 
+                        Grid.RowSpan="4" 
+                        Source="chevronright.svg"
+                        Command="{Binding BindingContext.NavigateToDetailsCommand, Source={x:Reference Name=PendingInspectionPage}}"
+                        CommandParameter="{Binding .}">
+                                    <ImageButton.Triggers>
+                                        <DataTrigger 
+                            TargetType="ImageButton"
+                            Binding="{Binding Status}"
+                            Value="{x:Static rentospect:InspactionStatusEnum.Pending}">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </ImageButton.Triggers>
+                                </ImageButton>
+                                <ImageButton
+                     Grid.Column="2" 
+                     Grid.Row="0" 
+                     Grid.RowSpan="4" 
+                     Source="refreshinsp.svg"
+                     Command="{Binding BindingContext.AIRefreshCommand, Source={x:Reference Name=PendingInspectionPage}}"
+                     CommandParameter="{Binding .}">
+                                    <ImageButton.Triggers>
+                                        <DataTrigger 
+                            TargetType="ImageButton"
+                            Binding="{Binding Status}"
+                            Value="{x:Static rentospect:InspactionStatusEnum.Ready}">
+                                            <Setter Property="IsVisible" Value="False" />
+                                        </DataTrigger>
+                                    </ImageButton.Triggers>
+
+                                </ImageButton>
+                                <!--Refresh-->
+                                <Grid 
+                    Grid.Column="1" 
+                    Grid.Row="0"
+                    RowDefinitions="Auto,Auto">
+                                    <Border Grid.Row="0" HeightRequest="20" HorizontalOptions="End"  StrokeShape="RoundRectangle 6"
+ 
+                        BackgroundColor="{Binding Status, Converter={StaticResource StatusToColorConverter}}"
+                                >
+                                        <Label Padding="2,0,2,0" VerticalTextAlignment="Center"
+                               Text= "{Binding Status, Converter={StaticResource EnumDescriptionConverter}}"
+                               FontSize="12" FontFamily="sans-serif"
+                               TextColor="{Binding Status, Converter={StaticResource StatusToTextColorConverter}}">
+                                        </Label>
+                                    </Border>
+
+                                </Grid>
+
+                                <Border HeightRequest="20" HorizontalOptions="End"  StrokeShape="RoundRectangle 8"
+                    Grid.Column="1" 
+                    Grid.Row="3"
+                    Stroke="Gray"               
+                    StrokeThickness="1"
+                    BackgroundColor="Transparent"
+                    Padding="6,2"
+                    >
+                                    <Label Text="{Binding CheckType, Converter={StaticResource EnumDescriptionConverter}}"
+                           FontSize="12"
+                           TextColor="Gray"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" >
+                                    </Label>
+                                </Border>
+
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+    
+</ContentPage>

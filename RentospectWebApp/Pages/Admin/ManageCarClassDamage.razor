@@ -1,0 +1,236 @@
+﻿@page "/admin/manage-carclassdamages/{id:int}"
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@inject IDamageApi DamageApi
+@inject ICarClassDamageApi CarClassDamageApi
+
+
+<div class="container">
+    <h1 class="page-title">Car Class Damages</h1>
+    <hr class="divider" />
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Damage</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carClassdamage in PagedCarClassDamages)
+            {
+                <tr>
+                    <td>@GetDamageName(carClassdamage.DamageID)</td>
+                    <td>
+                        <InputNumber class="form-control excel-input"
+                                     @bind-Value="carClassdamage.Price"
+                                     onfocus="this.select()"
+                                     onkeydown="excelNavigate(event)" />
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-danger"
+                                @onclick="() => DeleteCarClassDamage(carClassdamage)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Paging Controls -->
+    <div class="mt-2 d-flex justify-content-between align-items-center">
+        <div>
+            <button class="btn btn-secondary me-2" @onclick="PreviousPage" disabled="@(currentPage == 1)">Previous</button>
+            <button class="btn btn-secondary" @onclick="NextPage" disabled="@(currentPage * pageSize >= _carClassDamageDtos.Count)">Next</button>
+        </div>
+        <button class="btn btn-primary" @onclick="SaveAllChanges">Save Changes</button>
+    </div>
+
+
+    @if (showAddForm)
+    {
+        <div class="card p-3 mb-4">
+            <div class="row">
+                <EditForm Model="_carClassDamageDto" OnValidSubmit="SaveCarClassDamageAsync">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="m-0">Add/Edit Damage Class</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Damages</label>
+                                            <InputSelect disabled="true" class="form-control" @bind-Value="_carClassDamageDto.DamageID">
+                                                <option value="0">Select Damage</option>
+                                                @foreach (var damage in _damageDtos)
+                                                {
+                                                    <option value="@damage.ID">@damage.ShortDescription</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="() => _carClassDamageDto.DamageID" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Price</label>
+                                            <InputNumber class="form-control" @bind-Value="_carClassDamageDto.Price"></InputNumber>
+                                            <ValidationMessage For="() => _carClassDamageDto.Price" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-danger" @onclick="Cancel">Cancel</button>
+                                    <button type="submit" class="btn btn-sm btn-success">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+        </div>
+    }
+
+</div>
+@code {
+    private int currentPage = 1;
+    private int pageSize = 5;
+    private List<CarClassDamageDto> _carClassDamageDtos = new List<CarClassDamageDto>();
+    private DamageDto[] _damageDtos = [];
+    private CarClassDamageDto _carClassDamageDto = new();
+    public bool _isBusy;
+    public string? _errorMessage;
+    [Parameter] public int id { get; set; }
+
+    private bool showAddForm = false;
+    private IEnumerable<CarClassDamageDto> PagedCarClassDamages =>
+        _carClassDamageDtos.Skip((currentPage - 1) * pageSize).Take(pageSize);
+    private void NextPage() => currentPage++;
+    private void PreviousPage() => currentPage--;
+
+    private void EditCarClassDamage(CarClassDamageDto carClassDamageDto)
+    {
+        _carClassDamageDto = new CarClassDamageDto()
+        {
+            ID = carClassDamageDto.ID,
+            CarClassID = carClassDamageDto.CarClassID,
+            DamageID = carClassDamageDto.DamageID,
+            IsActive = carClassDamageDto.IsActive,
+            Price = carClassDamageDto.Price
+        };
+        showAddForm = true;
+    }
+
+    private async Task DeleteCarClassDamage(CarClassDamageDto carClassDamageDto)
+    {
+        if (carClassDamageDto != null)
+        {
+            bool confirmed = true;
+            if (confirmed)
+            {
+                var damageBeUpdated = _carClassDamageDtos.FirstOrDefault(clss => clss.ID.Equals(carClassDamageDto.ID));
+                if (damageBeUpdated != null)
+                {
+                    damageBeUpdated.IsActive = false;
+                    await CarClassDamageApi.SaveCarClassDamageAsync(damageBeUpdated);
+                    await LoadCarClassDamages();
+                }
+            }
+        }
+    }
+    private void ShowAddCarClassDamage()
+    {
+        _carClassDamageDto = new CarClassDamageDto(); // Reset for new entry
+        showAddForm = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _damageDtos = await DamageApi.GetDamagesAsync();
+        await LoadCarClassDamages();
+    }
+    private async Task LoadCarClassDamages() =>
+    _carClassDamageDtos = (await CarClassDamageApi.GetCarClassDamagesByCarClassIDAsync(id)).ToList();
+
+    private async Task SaveDamagePriceAsync(CarClassDamageDto carClassDamageDto)
+    {
+        try
+        {
+            _isBusy = true;
+            carClassDamageDto.CarClassID = id;
+            var response = await CarClassDamageApi.SaveCarClassDamageAsync(carClassDamageDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+
+    private async Task SaveCarClassDamageAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            _carClassDamageDto.CarClassID = id;
+            var response = await CarClassDamageApi.SaveCarClassDamageAsync(_carClassDamageDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+            await LoadCarClassDamages();      // reload the list
+            _carClassDamageDto = new CarClassDamageDto(); // clear form for new entry
+            showAddForm = false;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private void Cancel()
+    {
+        _carClassDamageDto = new CarClassDamageDto();
+        showAddForm = false;
+    }
+    private string GetDamageName(int id)
+    {
+        var damage = _damageDtos.FirstOrDefault(c => c.ID == id);
+        return damage?.ShortDescription ?? "-";
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("enableExcelInputs");
+        }
+    }
+    private async Task SaveAllChanges()
+    {
+        foreach (var car in _carClassDamageDtos)
+        {
+            await CarClassDamageApi.SaveCarClassDamageAsync(car);
+        }
+
+        Console.WriteLine("All changes saved!");
+    }
+}

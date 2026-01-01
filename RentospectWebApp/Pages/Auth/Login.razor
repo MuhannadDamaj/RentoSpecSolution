@@ -1,0 +1,90 @@
+﻿@page "/auth/login"
+@using RentospectShared.DTOs
+@layout EmptyLayout
+@inject NavigationManager NavigationManager
+@inject IAuthApi AuthApi
+@inject AuthStateProvider AuthStateProvider
+
+<div class="login-wrapper">
+    <div class="login-card shadow-lg">
+        <div class="login-header text-center">
+            <img src="images/logo.png" alt="Rentospect Logo" class="login-logo" />
+        </div>
+        <hr />
+        <EditForm Model="_model" OnValidSubmit="LoginAsync">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label>User Name</label>
+                <input @bind-value="_model.UserName" class="form-control" placeholder="Enter your username" />
+                <ValidationMessage For="() => _model.UserName" />
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" @bind-value="_model.Password" class="form-control" placeholder="Enter your password" />
+                <ValidationMessage For="() => _model.Password" />
+            </div>
+
+            @if (_error != null)
+            {
+                <div class="alert alert-danger">
+                    @_error
+                </div>
+            }
+
+            <div class="form-actions text-center">
+                @if (!_isBuzy)
+                {
+                    <button type="submit" class="btn btn-login">Login</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary" disabled>Logging in...</button>
+                }
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private LoginDto _model = new();
+    private bool _isBuzy;
+    private string? _error;
+
+    protected override void OnInitialized()
+    {
+        var loggedInUser = AuthStateProvider._user;
+        bool isLoggedIn = AuthStateProvider._user != null && AuthStateProvider._user.ID > 0;
+        if (isLoggedIn)
+        {
+            NavigationManager.NavigateTo("/", replace: true);
+        }
+    }
+
+    private async Task LoginAsync()
+    {
+        _isBuzy = true;
+        _error = null;
+        try
+        {
+            var authResponse = await AuthApi.LoginAsync(_model);
+            if (authResponse.HasError)
+            {
+                _error = authResponse.ErrorMessage;
+                return;
+            }
+            var loginUser = authResponse.user;
+            await AuthStateProvider.SetLoginAsync(loginUser);
+            NavigationManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            _error = ex.Message;
+        }
+        finally
+        {
+            _isBuzy = false;
+        }
+    }
+}

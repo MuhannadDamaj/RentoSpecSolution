@@ -1,0 +1,5 @@
+C:\RealEstate\RealEstateGCC\RentospectMobileApp\obj\Debug\net9.0\RentospectMobileApp.csproj.AssemblyReference.cache
+C:\RealEstate\RealEstateGCC\RentospectMobileApp\obj\Debug\net9.0\RentospectMobileApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\RealEstate\RealEstateGCC\RentospectMobileApp\obj\Debug\net9.0\RentospectMobileApp.AssemblyInfoInputs.cache
+C:\RealEstate\RealEstateGCC\RentospectMobileApp\obj\Debug\net9.0\RentospectMobileApp.AssemblyInfo.cs
+C:\RealEstate\RealEstateGCC\RentospectMobileApp\obj\Debug\net9.0\RentospectMobileApp.csproj.CoreCompileInputs.cache

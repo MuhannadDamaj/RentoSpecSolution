@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RentospectMobileApp.Views.LoginView"
+             xmlns:inputLayout="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <TapGestureRecognizer x:Key="TapToTogglePassword"
+                              Command="{Binding TogglePasswordVisibilityCommand}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Image Margin="120,100,120,16" HorizontalOptions="Center"  Source="/Images/logo.png" Grid.Row="0" Grid.Column="0"></Image>
+        <Label HorizontalOptions="Center" FontSize="24" TextColor="#4CA1AF" FontFamily="sans-serif" Text="Welcome Back" Grid.Row="1" Grid.Column="0"/>
+        <Label HorizontalOptions="Center" FontSize="14" TextColor="#848484" FontFamily="sans-serif" Text="Sign in to your employee account" Grid.Row="2" Grid.Column="0"/>
+
+        <VerticalStackLayout  Spacing="4" Grid.Row="3" Grid.Column="0"
+                     Padding="25,100,25,0">
+
+            <!-- Label -->
+            <Label Text="Phone Number"
+           FontSize="14"
+           TextColor="Black" />
+
+            <!-- Rounded Input -->
+            <Frame 
+                   CornerRadius="8"
+                   HasShadow="False"
+                   BorderColor="#f8f9fa"
+                   BackgroundColor="#f8f9fa"
+                   HeightRequest="48"
+                   Padding="0">
+
+                <Grid ColumnDefinitions="Auto,*">
+
+                    <!-- Phone Icon -->
+                    <Image Source="phone_icon.svg" 
+                        WidthRequest="20"
+                   HeightRequest="20"
+                   VerticalOptions="Center"
+                   Margin="10,0,8,0" />
+
+                    <!-- Entry -->
+                    <Entry 
+                           Grid.Column="1"
+                           PlaceholderColor="#848484"
+                           Placeholder="03123456"
+                           Keyboard="Telephone"
+                            Text="{Binding UserName}"
+                           BackgroundColor="Transparent"
+                           VerticalOptions="Center"
+                           Margin="0"/>
+                </Grid>
+
+            </Frame>
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout  Spacing="4" Grid.Row="4" Grid.Column="0"
+                     Padding="25,10,25,0">
+
+            <!-- Label -->
+            <Label Text="Password"
+           FontSize="14"
+           TextColor="Black" />
+            <Frame 
+                   CornerRadius="8"
+                   HasShadow="False"
+                   BorderColor="#f8f9fa"
+                   BackgroundColor="#f8f9fa"
+                   HeightRequest="48"
+                   Padding="0">
+
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <Image Grid.Column="0" Source="lock.svg" 
+                        WidthRequest="20"
+                        HeightRequest="20"
+                        VerticalOptions="Center"
+                        Margin="10,0,8,0" />
+                    <!-- Entry -->
+                    <Entry 
+                           Grid.Column="1"
+                           PlaceholderColor="#848484"
+                           Placeholder="Enter your password"
+                            IsPassword="{Binding IsPasswordHidden}"
+                           
+                           BackgroundColor="Transparent"
+                           VerticalOptions="Center"
+                        Text="{Binding Password}"
+                           Margin="0"/>
+                    <Image Grid.Column="2" Source="eye.svg" 
+                            WidthRequest="20"
+                            HeightRequest="20"
+                            IsVisible="{Binding IsPasswordShown}"
+                            GestureRecognizers="{StaticResource TapToTogglePassword}"
+                            VerticalOptions="Center"
+                            Margin="10,0,8,0" 
+                           ></Image>
+                    <Image Grid.Column="2" Source="eyeoff.svg" 
+                            WidthRequest="20"
+                            IsVisible="{Binding IsPasswordHidden}"
+                            HeightRequest="20"
+                            VerticalOptions="Center"
+                            GestureRecognizers="{StaticResource TapToTogglePassword}"
+                            Margin="10,0,8,0" ></Image>
+                </Grid>
+            </Frame>
+            <Label 
+                Grid.Column="1" Grid.Row="1"
+                Margin="0,6,0,0"
+                Text="Forgot Password?"
+                FontSize="14"
+                TextColor="#4CA1AF"
+                HorizontalOptions="End" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenForgotPasswordPopupCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </VerticalStackLayout>
+        <Button Text="Sign In" Grid.Row="5" Margin="25,10,25,0"
+        BackgroundColor="#4CA1AF"
+        TextColor="White"
+        FontSize="16"
+        FontAttributes="Bold"
+        HeightRequest="48"
+        Command="{Binding LoginCommand}"        
+        CornerRadius="8"  
+        VerticalOptions="Center"/>
+
+
+    </Grid>
+
+
+</ContentPage>

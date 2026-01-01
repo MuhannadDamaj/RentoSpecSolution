@@ -1,0 +1,7 @@
+﻿@using RentospectShared
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = nameof(UserRoleEnum.Administrator))]
+
+@code {
+
+}

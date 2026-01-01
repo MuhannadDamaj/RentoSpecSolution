@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RentospectMobileApp.Views.InspectionIndexView"
+             Shell.NavBarIsVisible="True"
+             x:Name="InspectionIndexPage">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    <VerticalStackLayout Margin="10,0,10,0"  Spacing="5">
+        <Border 
+                Stroke="#4CA1AF"
+                StrokeThickness="1"
+                StrokeShape ="RoundRectangle 12"
+                BackgroundColor="White"
+                Padding="10,10,10,0">
+            <Grid 
+                    ColumnDefinitions="30,*" 
+                    RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                <Border
+                    VerticalOptions="Center"
+                    BackgroundColor="#EDF6F7"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    HeightRequest="25"
+                    WidthRequest="25"
+                    Stroke="Transparent"
+                    StrokeShape ="EllipseGeometry">
+                    <Label 
+                            FontSize="13" 
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center" 
+                            Text="1"></Label>
+                </Border>
+                <Border
+                    VerticalOptions="Center"
+                    BackgroundColor="#EDF6F7"
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    HeightRequest="25"
+                    WidthRequest="25"
+                    Stroke="Transparent"
+                    StrokeShape ="EllipseGeometry">
+                    <Label 
+                            FontSize="13" 
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center" 
+                            Text="2"></Label>
+                </Border>
+                <Border
+                        VerticalOptions="Center"
+                        BackgroundColor="#EDF6F7"
+                        Grid.Row="3"
+                        Grid.Column="0"
+                        HeightRequest="25"
+                        WidthRequest="25"
+                        Stroke="Transparent"
+                        StrokeShape ="EllipseGeometry">
+                    <Label 
+                            FontSize="13" 
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Center" 
+                            Text="3"></Label>
+                </Border>
+                <Border
+        VerticalOptions="Center"
+        BackgroundColor="#EDF6F7"
+        Grid.Row="4"
+        Grid.Column="0"
+        HeightRequest="25"
+        WidthRequest="25"
+        Stroke="Transparent"
+        StrokeShape ="EllipseGeometry">
+                    <Label 
+            FontSize="13" 
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            Text="4"></Label>
+                </Border>
+                <Border
+VerticalOptions="Center"
+BackgroundColor="#EDF6F7"
+Grid.Row="5"
+Grid.Column="0"
+HeightRequest="25"
+WidthRequest="25"
+Stroke="Transparent"
+StrokeShape ="EllipseGeometry">
+                    <Label 
+    FontSize="13" 
+    VerticalOptions="Center" 
+    HorizontalOptions="Center" 
+    Text="5"></Label>
+                </Border>
+                <Border
+VerticalOptions="Center"
+BackgroundColor="#EDF6F7"
+Grid.Row="6"
+Grid.Column="0"
+HeightRequest="25"
+WidthRequest="25"
+Stroke="Transparent"
+StrokeShape ="EllipseGeometry">
+                    <Label 
+    FontSize="13" 
+    VerticalOptions="Center" 
+    HorizontalOptions="Center" 
+    Text="6"></Label>
+                </Border>
+                <Label 
+                        FontSize="16"
+                        Grid.Row="0" 
+                        Grid.Column="0" 
+                        Grid.ColumnSpan="2" 
+                        FontFamily="sans-serif"
+                        FontAttributes="Bold"
+                        TextColor="#333333"
+                        Text="Check In Scanning Guide"
+                        Padding="0,0,0,30"></Label>
+                <Label 
+                        VerticalTextAlignment="Center"
+                        FontSize="12"
+                        Grid.Row="1" 
+                        Grid.Column="1" 
+                        HeightRequest="40"
+                        FontFamily="sans-serif"
+                        TextColor="#333333"
+                        Text="Start from the front of the vehicle"></Label>
+                <Label 
+                    VerticalTextAlignment="Center"
+                    FontSize="12"
+                    HeightRequest="40"
+                    Grid.Row="2" 
+                    Grid.Column="2" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Take photos of all 4 corners and side"></Label>
+                <Label 
+                    VerticalTextAlignment="Center"
+                    FontSize="12"
+                    HeightRequest="40"
+                    Grid.Row="3" 
+                    Grid.Column="1" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Focus on bumpers, doors, and panels"></Label>
+                <Label 
+                    VerticalTextAlignment="Center"
+                    FontSize="12"
+                    HeightRequest="40"
+                    Grid.Row="4" 
+                    Grid.Column="1" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Capture the roof and undercarriage if accessible"></Label>
+                <Label 
+                    VerticalTextAlignment="Center"
+                    FontSize="12"
+                    Grid.Row="5" 
+                    HeightRequest="40"
+                    Grid.Column="1" 
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Document interior damage if applicable"></Label>
+                <Label 
+                      VerticalTextAlignment="Center"
+                      FontSize="12"
+                      Grid.Row="6" 
+                      Grid.Column="1" 
+                      FontFamily="sans-serif"
+                      HeightRequest="40"
+                      TextColor="#333333"
+                      Text="Ensure good lighting for clear images"></Label>
+                <Border 
+                    Grid.Row="7" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2"
+                    Stroke="White"
+                    StrokeThickness="0"
+                    HeightRequest="60"
+                    StrokeShape ="RoundRectangle 12"
+                    BackgroundColor="#eff6ff"
+                    Margin="10,10,10,10">
+                    <Grid ColumnDefinitions="40,*">
+                        <Image VerticalOptions="Center" Source="info.svg" HeightRequest="25" WidthRequest="25"></Image>
+                        <Label 
+                            Grid.Column="1"
+                            Margin="10,10,10,10"
+                            FontSize="14"
+                            FontFamily="sans-serif"
+                            TextColor="#193CB8"
+                            Text="Our AI will comppare with previous check out photos to identify new damages"></Label>
+                    </Grid>
+
+                </Border>
+            </Grid>
+        </Border>
+        <Grid ColumnSpacing="5" ColumnDefinitions="*,*">
+            <Border  HeightRequest="40" Grid.Column="0" StrokeShape ="RoundRectangle 8">
+                
+                <Grid ColumnDefinitions="*,*">
+                    <Image Grid.Column="0" HeightRequest="20" WidthRequest="20"
+                    Source="arrowleftblack.svg"  
+                    />
+                    <Label HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="1" Text="Back"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnCustomBackClicked"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+            <Border BackgroundColor="#4ca1af" HeightRequest="40" Grid.Column="1" StrokeShape ="RoundRectangle 8">
+
+                <Grid ColumnDefinitions="2*,*">
+                    <Image Grid.Column="1" HeightRequest="20" WidthRequest="20"
+                           Source="arrowrightwight.svg"  />
+                    <Label 
+                            TextColor="White" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center" 
+                            Grid.Column="0" 
+                            Text="Start Scanning"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToCaptureVehicleImagesView"></TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+    </VerticalStackLayout>
+
+</ContentPage>

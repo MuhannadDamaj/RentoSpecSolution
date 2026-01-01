@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>RentospectMobileApplication</id>
+    <version>1.0.0</version>
+    <authors>RentospectMobileApplication</authors>
+    <description>Package Description</description>
+    <repository type="git" />
+    <dependencies>
+      <group targetFramework="net9.0-android35.0">
+        <dependency id="RentospectShared" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Maui" version="11.2.0" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Mvvm" version="8.4.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Debug" version="9.0.8" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls" version="9.0.111" exclude="Build,Analyzers" />
+        <dependency id="MvvmLightLibs" version="5.4.1.1" exclude="Build,Analyzers" />
+        <dependency id="SQLite" version="3.13.0" exclude="Build,Analyzers" />
+        <dependency id="sqlite-net-pcl" version="1.9.172" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-ios26.0">
+        <dependency id="RentospectShared" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Maui" version="11.2.0" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Mvvm" version="8.4.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Debug" version="9.0.8" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls" version="9.0.111" exclude="Build,Analyzers" />
+        <dependency id="MvvmLightLibs" version="5.4.1.1" exclude="Build,Analyzers" />
+        <dependency id="SQLite" version="3.13.0" exclude="Build,Analyzers" />
+        <dependency id="sqlite-net-pcl" version="1.9.172" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework="net9.0-maccatalyst26.0">
+        <dependency id="RentospectShared" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Maui" version="11.2.0" exclude="Build,Analyzers" />
+        <dependency id="CommunityToolkit.Mvvm" version="8.4.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.Logging.Debug" version="9.0.8" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Maui.Controls" version="9.0.111" exclude="Build,Analyzers" />
+        <dependency id="MvvmLightLibs" version="5.4.1.1" exclude="Build,Analyzers" />
+        <dependency id="SQLite" version="3.13.0" exclude="Build,Analyzers" />
+        <dependency id="sqlite-net-pcl" version="1.9.172" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-android\RentospectMobileApplication.runtimeconfig.json" target="lib\net9.0-android35.0\RentospectMobileApplication.runtimeconfig.json" />
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-android\RentospectMobileApplication.dll" target="lib\net9.0-android35.0\RentospectMobileApplication.dll" />
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-android\RentospectMobileApplication.xml" target="lib\net9.0-android35.0\RentospectMobileApplication.xml" />
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-ios\iossimulator-x64\RentospectMobileApplication.runtimeconfig.json" target="lib\net9.0-ios26.0\RentospectMobileApplication.runtimeconfig.json" />
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-ios\iossimulator-x64\RentospectMobileApplication.dll" target="lib\net9.0-ios26.0\RentospectMobileApplication.dll" />
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-maccatalyst\maccatalyst-x64\RentospectMobileApplication.runtimeconfig.json" target="lib\net9.0-maccatalyst26.0\RentospectMobileApplication.runtimeconfig.json" />
+    <file src="C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Debug\net9.0-maccatalyst\maccatalyst-x64\RentospectMobileApplication.dll" target="lib\net9.0-maccatalyst26.0\RentospectMobileApplication.dll" />
+  </files>
+</package>

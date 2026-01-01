@@ -1,0 +1,6 @@
+C:\RealEstate\RealEstateGCC\RentospectWebApp\bin\Release\net9.0\publish\publish\web.config
+C:\RealEstate\RealEstateGCC\RentospectWebApp\bin\Release\net9.0\publish\publish\RentospectWebApp.staticwebassets.endpoints.json
+C:\RealEstate\RealEstateGCC\RentospectWebApp\bin\Release\net9.0\publish\publish\wwwroot\appsettings.json
+C:\RealEstate\RealEstateGCC\RentospectWebApp\bin\Release\net9.0\publish\publish\wwwroot\sample-data\weather.json
+C:\RealEstate\RealEstateGCC\RentospectWebApp\bin\Release\net9.0\publish\publish\wwwroot\_framework\blazor.boot.json
+C:\RealEstate\RealEstateGCC\RentospectWebApp\bin\Release\net9.0\publish\web.config

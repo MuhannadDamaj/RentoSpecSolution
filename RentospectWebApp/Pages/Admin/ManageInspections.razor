@@ -1,0 +1,222 @@
+﻿@page "/"
+@page "/admin/manage-inspections"
+
+@using System.ComponentModel;
+@inject IPortalInspectionApi  PortalInspectionApi
+
+<div class="container">
+    <h1 class="page-title">Inspections</h1>
+    <hr class="divider" />
+
+    <!-- Line 1: Search -->
+    <div class="row align-items-end">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Search</label>
+            <input class="form-control"
+                   @bind="globalFilter"
+                   @bind:event="oninput"
+                   @bind:after="ApplyFilters"
+                   placeholder="Search plate, agreement, driver, status, type, date..." />
+        </div>
+
+        <div class="col-md-2 mb-3">
+            <button class="btn btn-secondary w-100 mt-4" @onclick="ClearFilters">
+                Clear
+            </button>
+        </div>
+    </div>
+
+    <!-- Line 2: Date Pickers -->
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Date From</label>
+            <input type="date" class="form-control"
+                   @bind="dateFrom"
+                   @bind:after="ApplyFilters" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Date To</label>
+            <input type="date" class="form-control" @bind="dateTo" @bind:after="ApplyFilters" />
+        </div>
+    </div>
+
+    <!-- Line 3: Dropdown Filters -->
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Status</label>
+            <select class="form-select" @bind="selectedStatus" @bind:after="ApplyFilters">
+                <option value="">All</option>
+                @foreach (var status in Enum.GetValues<InspactionStatusEnum>())
+                {
+                    <option value="@status">@GetEnumDescription(status)</option>
+                }
+            </select>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label class="form-label">Inspection Type</label>
+            <select class="form-select" @bind="selectedType" @bind:after="ApplyFilters">
+                <option value="">All</option>
+                @foreach (var type in Enum.GetValues<InspectionCheckTypeEnum>())
+                {
+                    <option value="@type">@GetEnumDescription(type)</option>
+                }
+            </select>
+        </div>
+    </div>
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Inspection #</th>
+                <th>Date</th>
+                <th>Driver</th>
+                <th>Plate</th>
+                <th>Status</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ins in PagedInspections)
+            {
+                <tr>
+                    <td>@ins.InspectionNumber</td>
+                    <td>@ins.InspectionDate.ToString("yyyy-MM-dd HH:mm")</td>
+                    <td>@ins.DriverName</td>
+                    <td>@ins.PlateNumber</td>
+                    <td>@ins.Status</td>
+                    <td>@ins.CheckType</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+
+        <!-- Page Size -->
+        <div>
+            <label class="me-2">Rows per page:</label>
+            <select class="form-select d-inline-block w-auto"
+                    @bind="pageSize"
+                    @bind:after="(()=> { currentPage = 1; UpdatePagination(); })">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+
+        <!-- Pagination Buttons -->
+        <div>
+            <button class="btn btn-secondary me-2"
+                    disabled="@(currentPage == 1)"
+                    @onclick="(()=> { currentPage--; UpdatePagination(); })">
+                Previous
+            </button>
+
+            <span>Page @currentPage of @totalPages</span>
+
+            <button class="btn btn-secondary ms-2"
+                    disabled="@(currentPage == totalPages)"
+                    @onclick="(()=> { currentPage++; UpdatePagination(); })">
+                Next
+            </button>
+        </div>
+    </div>
+
+</div>
+
+@code {
+    // Filters
+    private string globalFilter = "";
+    private string selectedStatus = "";
+    private string selectedType = "";
+    private DateTime? dateFrom = DateTime.Now.Date;
+    private DateTime? dateTo = DateTime.Now.Date;
+
+
+    private string searchTerm = "";
+    private int _companyId = 1;
+    private List<InspectionDto> _inspections = new();
+    private List<InspectionDto> FilteredInspections = new();
+
+    private int currentPage = 1;
+    private int pageSize = 10;    // items per page
+    private int totalPages = 1;
+
+    private List<InspectionDto> PagedInspections =>
+        FilteredInspections
+            .Skip((currentPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+
+    private void UpdatePagination()
+    {
+        totalPages = (int)Math.Ceiling(FilteredInspections.Count / (double)pageSize);
+
+        if (currentPage > totalPages)
+            currentPage = totalPages == 0 ? 1 : totalPages;
+
+        if (currentPage < 1)
+            currentPage = 1;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadInspections();
+    }
+
+    private async Task LoadInspections()
+    {
+        _inspections = await PortalInspectionApi.GetInspectionsByCompanyIdAsync(_companyId);
+        FilteredInspections = _inspections.ToList();
+        ApplyFilters();
+    }
+    public static string GetEnumDescription(Enum value)
+    {
+        var field = value.GetType().GetField(value.ToString());
+        var attr = field?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+                         .FirstOrDefault() as DescriptionAttribute;
+        return attr?.Description ?? value.ToString();
+    }
+    private void ApplyFilters()
+    {
+        FilteredInspections = _inspections.Where(i =>
+
+            // 1) GLOBAL SEARCH
+            (string.IsNullOrWhiteSpace(globalFilter) ||
+                (i.PlateNumber?.Contains(globalFilter, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (i.DriverName?.Contains(globalFilter, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (i.AgreementNumber?.Contains(globalFilter, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                (GetEnumDescription(i.Status).Contains(globalFilter, StringComparison.OrdinalIgnoreCase)) ||
+                (GetEnumDescription(i.CheckType).Contains(globalFilter, StringComparison.OrdinalIgnoreCase))
+            )
+
+            // 2) DATE RANGE
+            && (!dateFrom.HasValue || i.InspectionDate.Date >= dateFrom.Value.Date)
+            && (!dateTo.HasValue || i.InspectionDate.Date <= dateTo.Value.Date)
+
+            // 3) STATUS
+            && (string.IsNullOrWhiteSpace(selectedStatus) ||
+                i.Status.ToString() == selectedStatus)
+
+            // 4) TYPE
+            && (string.IsNullOrWhiteSpace(selectedType) ||
+                i.CheckType.ToString() == selectedType)
+
+        ).ToList();
+        currentPage = 1;   // Reset to first page after filtering
+        UpdatePagination();
+    }
+
+    private void ClearFilters()
+    {
+        globalFilter = "";
+        selectedStatus = "";
+        selectedType = "";
+        dateFrom = DateTime.Now.Date;
+        dateTo = DateTime.Now.Date;
+
+        ApplyFilters();
+    }
+}

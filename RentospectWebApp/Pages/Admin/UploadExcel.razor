@@ -1,0 +1,73 @@
+﻿@page "/admin/upload-excel"
+@inject IUploadApi UploadApi
+@inject AuthStateProvider AuthStateProvider
+<div class="upload-container">
+    <label class="upload-box">
+        <InputFile OnChange="OnInputFileChange" class="d-none" />  <!-- Hidden input -->
+        <div class="upload-content">
+            <i class="bi bi-cloud-arrow-up upload-icon"></i>
+            <p class="upload-title">Upload Car Excel File</p>
+            <p class="upload-subtitle">Drag & drop or click to browse</p>
+        </div>
+    </label>
+
+    <!-- Upload info directly under the box -->
+    @if (!string.IsNullOrEmpty(Message))
+    {
+        <div class="upload-info mt-2">@Message</div>
+    }
+
+    @if (UploadResult != null)
+    {
+        <div class="upload-result mt-2">
+            <p><strong>Total Rows:</strong> @UploadResult.TotalRows</p>
+            <p><strong>Successfully Processed:</strong> @UploadResult.SuccessRows</p>
+            @if (UploadResult.Errors.Any())
+            {
+                <p><strong>Errors:</strong></p>
+                <ul>
+                    @foreach (var error in UploadResult.Errors)
+                    {
+                        <li>@error</li>
+                    }
+                </ul>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private string Message;
+    private UploadResultDto UploadResult;
+
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null)
+        {
+            Message = "No file selected!";
+            return;
+        }
+
+        using var ms = new MemoryStream();
+        await file.OpenReadStream(maxAllowedSize: 20 * 1024 * 1024).CopyToAsync(ms);
+        ms.Position = 0;
+
+        var content = new MultipartFormDataContent();
+        var fileContent = new StreamContent(ms);
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+        content.Add(fileContent, "file", file.Name);
+
+        try
+        {
+            UploadResult = await UploadApi.UploadExcel(AuthStateProvider._user.CompanyID, 
+                                                       content);
+            Message = "Upload finished!";
+        }
+
+        catch (Exception ex)
+        {
+            Message = $"Upload failed: {ex.Message}";
+        }
+    }
+}

@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RentospectMobileApplication</name>
+    </assembly>
+    <members>
+        <member name="P:RentospectMobileApp.Entities.IAttachment.RelatedField">
+            <summary>
+            field name of this attachment in related object
+            </summary>
+        </member>
+        <member name="M:RentospectMobileApp.Services.DrawingViewExportService.ExportAsync(System.Collections.Generic.IEnumerable{CommunityToolkit.Maui.Core.IDrawingLine},System.Int32,System.Int32)">
+            <summary>
+            Creates a temporary DrawingView, assigns the supplied lines and returns an image stream.
+            width/height are the output image pixel dimensions (or DPI-adjusted values).
+            </summary>
+        </member>
+        <member name="T:RentospectMobileApp.ViewModels.AIProcessingViewModel">
+            <inheritdoc/>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.AIProcessingViewModel.startInspectionCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.AIProcessingViewModel.StartInspectionCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.AIProcessingViewModel.StartInspectionCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.AIProcessingViewModel.StartInspectionAsync"/>.</summary>
+        </member>
+        <member name="T:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel">
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.capturePhotoCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.CapturePhotoCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.CapturePhotoCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.CapturePhotoAsync"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.pickPhotoCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.PickPhotoCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.PickPhotoCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.PickPhotoAsync"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.clearPhotosCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.ClearPhotosCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.ClearPhotosCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.ClearPhotos"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.deletePhotoCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.DeletePhotoCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.DeletePhotoCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.DeletePhoto(Microsoft.Maui.Controls.ImageSource)"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.showImageCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.ShowImageCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.ShowImageCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.ShowImageAsync(Microsoft.Maui.Controls.ImageSource)"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.goToAIProcessingCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.GoToAIProcessingCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.GoToAIProcessingCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.GoToAIProcessingAsync"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.loadTestPhotosCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.LoadTestPhotosCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.LoadTestPhotosCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.CaptureVehicleImagesViewModel.LoadTestPhotosAsync"/>.</summary>
+        </member>
+        <member name="T:RentospectMobileApp.ViewModels.InspectionDetailsViewModel">
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.clearSignatureCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.ClearSignatureCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.ClearSignatureCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.ClearSignature"/>.</summary>
+        </member>
+        <member name="F:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.submitCommand">
+            <summary>The backing field for <see cref="P:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.SubmitCommand"/>.</summary>
+        </member>
+        <member name="P:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.SubmitCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IAsyncRelayCommand`1"/> instance wrapping <see cref="M:RentospectMobileApp.ViewModels.InspectionDetailsViewModel.SubmitAsync(CommunityToolkit.Maui.Views.DrawingView)"/>.</summary>
+        </member>
+        <member name="T:RentospectMobileApplication.Resource">
+            <summary>
+            Android Resource Designer class.
+            Exposes the Android Resource designer assembly into the project Namespace.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Button.TextColorTo(Microsoft.Maui.Controls.Button,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_DatePicker.TextColorTo(Microsoft.Maui.Controls.DatePicker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Editor.TextColorTo(Microsoft.Maui.Controls.Editor,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Entry.TextColorTo(Microsoft.Maui.Controls.Entry,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_InputView.TextColorTo(Microsoft.Maui.Controls.InputView,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Label.TextColorTo(Microsoft.Maui.Controls.Label,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_Picker.TextColorTo(Microsoft.Maui.Controls.Picker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_RadioButton.TextColorTo(Microsoft.Maui.Controls.RadioButton,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_SearchBar.TextColorTo(Microsoft.Maui.Controls.SearchBar,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+        <member name="M:Microsoft.Maui.Controls.ColorAnimationExtensions_TimePicker.TextColorTo(Microsoft.Maui.Controls.TimePicker,Microsoft.Maui.Graphics.Color,System.UInt32,System.UInt32,Microsoft.Maui.Easing,System.Threading.CancellationToken)">
+            <summary>
+            Animates the TextColor of an <see cref = "T:Microsoft.Maui.ITextStyle"/> to the given color
+            </summary>
+            <param name = "element"></param>
+            <param name = "color">The target color to animate the <see cref = "P:Microsoft.Maui.ITextStyle.TextColor"/> to</param>
+            <param name = "rate">The time, in milliseconds, between the frames of the animation</param>
+            <param name = "length">The duration, in milliseconds, of the animation</param>
+            <param name = "easing">The easing function to be used in the animation</param>
+            <param name = "token"><see cref = "T:System.Threading.CancellationToken"/></param>
+            <returns>Value indicating if the animation completed successfully or not</returns>
+        </member>
+    </members>
+</doc>

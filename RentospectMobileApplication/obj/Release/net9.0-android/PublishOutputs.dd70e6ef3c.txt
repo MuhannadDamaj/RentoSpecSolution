@@ -1,0 +1,3 @@
+C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Release\net9.0-android\publish\com.companyname.rentospectmobileapplication-Signed.apk
+C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Release\net9.0-android\publish\com.companyname.rentospectmobileapplication.apk
+C:\RealEstate\RealEstateGCC\RentospectMobileApplication\bin\Release\net9.0-android\publish\_Microsoft.Android.Resource.Designer.dll

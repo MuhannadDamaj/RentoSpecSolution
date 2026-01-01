@@ -1,0 +1,231 @@
+﻿@page "/admin/manage-damages"
+
+@inject IDamageApi DamageApi
+@inject IUploadImage UploadImage
+
+<div class="container">
+    <h1 class="page-title">Damages</h1>
+    <hr class="divider" />
+    @*<div class="d-flex justify-content-between mb-3">
+            <button class="btn btn-primary" @onclick="ShowAddDamage">
+                <i class="bi bi-plus-circle me-2"></i> Add Damage
+            </button>
+            <input class="form-control w-25" placeholder="Search..." @bind="searchTerm" />
+        </div>*@
+
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Description</th>
+                @*<th>Actions</th>*@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var damage in FilteredDamages)
+            {
+                <tr>
+                    <td>@damage.ShortDescription</td>
+                    @*<td>
+                            <button class="btn btn-sm btn-info me-1" @onclick="() => EditDamage(damage)">
+                                <i class="bi bi-pencil-square" fs-6></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => DeleteDamage(damage)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (showAddForm)
+    {
+        <div class="card p-3 mb-4">
+            <div class="row">
+                <EditForm Model="_damageDto" OnValidSubmit="SaveDamageAsync">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="m-0">Add/Edit Damage</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                            <InputText class="form-control" @bind-Value="_damageDto.ShortDescription"></InputText>
+                                            <ValidationMessage For="() => _damageDto.ShortDescription" />
+                                        </div>
+                                    </div>
+                                    @*<div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Photo One Example</label>
+                                                <InputFile type="image" class="form-control" @bind-Value="_damageDto.ExampleOnePhoto" OnChange="HandlePhoto01Upload"></InputFile>
+                                                <ValidationMessage For="() => _damageDto.ExampleOnePhoto" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Photo Two Example</label>
+                                                <InputFile type="image" class="form-control" @bind-Value="_damageDto.ExampleTwoPhoto" OnChange="HandlePhoto02Upload"></InputFile>
+                                                <ValidationMessage For="() => _damageDto.ExampleTwoPhoto" />
+                                            </div>
+                                        </div>*@
+                                </div>
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-danger" @onclick="Cancel">Cancel</button>
+                                    <button type="submit" class="btn btn-sm btn-success">Save Damage</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+        </div>
+    }
+
+</div>
+@code {
+    private List<DamageDto> _damagesDto = new List<DamageDto>();
+    private DamageDto _damageDto = new();
+    public bool _isBusy;
+    public string? _errorMessage;
+
+    private IBrowserFile? _selectedFile;
+    private string? _uploadedPath;
+
+    private string searchTerm;
+    private bool showAddForm = false;
+    private IEnumerable<DamageDto> FilteredDamages =>
+    string.IsNullOrWhiteSpace(searchTerm)
+        ? _damagesDto
+        : _damagesDto.Where(c => c.ShortDescription.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+    private void EditDamage(DamageDto damageDto)
+    {
+        _damageDto = new DamageDto
+        {
+            ID = damageDto.ID,
+            ExampleOnePhoto = damageDto.ExampleOnePhoto,
+            ExampleTwoPhoto = damageDto.ExampleTwoPhoto,
+            ShortDescription = damageDto.ShortDescription
+        };
+        showAddForm = true;
+    }
+
+    private async Task DeleteDamage(DamageDto damageDto)
+    {
+        if (damageDto != null)
+        {
+            bool confirmed = true;
+            if (confirmed)
+            {
+                var damageBeUpdated = _damagesDto.FirstOrDefault(clss => clss.ID.Equals(damageDto.ID));
+                if (damageBeUpdated != null)
+                {
+                    damageBeUpdated.IsActive = false;
+                    await DamageApi.SaveDamageAsync(damageBeUpdated);
+                    await LoadDamages();
+                }
+            }
+        }
+    }
+    private void ShowAddDamage()
+    {
+        _damageDto = new DamageDto(); // Reset for new entry
+        showAddForm = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadDamages();
+    }
+    private async Task LoadDamages()
+    {
+        _damagesDto = (await DamageApi.GetDamagesAsync()).ToList();
+    }
+    private async Task SaveDamageAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            _damageDto.ExampleOnePhoto = string.Empty;
+            _damageDto.ExampleTwoPhoto = string.Empty;
+
+            var response = await DamageApi.SaveDamageAsync(_damageDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+            await LoadDamages();      // reload the list
+            _damageDto = new DamageDto(); // clear form for new entry
+            showAddForm = false;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private void Cancel()
+    {
+        // Reset the model
+        _damageDto = new DamageDto();
+
+        // Hide the form
+        showAddForm = false;
+    }
+    private void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        _selectedFile = e.File;
+    }
+
+    private async Task HandlePhoto01Upload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null) return;
+
+        var uploadsFolder = Path.Combine(Environment.CurrentDirectory, "wwwroot", "uploads");
+        Directory.CreateDirectory(uploadsFolder);
+
+        var filePath = Path.Combine(uploadsFolder, file.Name);
+
+        await using var stream = File.Create(filePath);
+        await file.OpenReadStream(10 * 1024 * 1024).CopyToAsync(stream);
+
+        // Assign the path to DTO
+        _damageDto.ExampleOnePhoto = $"/uploads/{file.Name}";
+
+        // Force Blazor to revalidate the field
+        var editContext = new EditContext(_damageDto);
+        editContext.NotifyFieldChanged(FieldIdentifier.Create(() => _damageDto.ExampleTwoPhoto));
+    }
+    private async Task HandlePhoto02Upload(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null) return;
+
+        var uploadsFolder = Path.Combine(Environment.CurrentDirectory, "wwwroot", "uploads");
+        Directory.CreateDirectory(uploadsFolder);
+
+        var filePath = Path.Combine(uploadsFolder, file.Name);
+
+        await using var stream = File.Create(filePath);
+        await file.OpenReadStream(10 * 1024 * 1024).CopyToAsync(stream);
+
+        // Assign the path to DTO
+        _damageDto.ExampleTwoPhoto = $"/uploads/{file.Name}";
+
+        // Force Blazor to revalidate the field
+        var editContext = new EditContext(_damageDto);
+        editContext.NotifyFieldChanged(FieldIdentifier.Create(() => _damageDto.ExampleTwoPhoto));
+    }
+}

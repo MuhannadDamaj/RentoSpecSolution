@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:RentospectShared.CommonEnum;assembly=RentospectShared"
+             x:Class="RentospectMobileApp.Views.NewInspectionView"
+             x:Name="NewInspectionPage">
+
+    <VerticalStackLayout Margin="10,0,10,0"  Spacing="5">
+        <Label 
+                FontSize="20" 
+                TextColor="#333333" 
+                HorizontalTextAlignment="Center" 
+                FontFamily="sans-serif" 
+                Text="Select Inspection Type"></Label>
+        <Label 
+                FontSize="14" 
+                TextColor="#333333" 
+                HorizontalTextAlignment="Center" 
+                FontFamily="sans-serif" 
+                Padding="0,0,0,15"
+                Text="Choose the type of inspection you want to perform"></Label>
+        <Border 
+            Stroke="#bbf7d0"
+            StrokeThickness="1.5"
+            StrokeShape ="RoundRectangle 8"
+            BackgroundColor="#f0fdf4"
+            Padding="16">
+
+            <HorizontalStackLayout Spacing="12">
+                <Border 
+                    WidthRequest="40"
+                    Stroke ="White"
+                    HeightRequest="40"
+                    BackgroundColor="White"
+                    StrokeShape ="RoundRectangle 8"
+                    Padding="8">
+                    <Image Source="arrowrightleft.svg"></Image>
+                </Border>
+                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                    <Label Text="Check In" 
+                           FontSize="16" 
+                           TextColor="#333333" 
+                           HorizontalTextAlignment="Start" 
+                           FontFamily="sans-serif" />
+                   <Label 
+                         MaxLines="2"
+                         WidthRequest="280"
+                         LineBreakMode="WordWrap"
+                         Text="Vehicle return inspection - assess new damages and calculate charges" 
+                         FontSize="12"
+                         TextColor="#4A5565"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToOutInspectionCommand}" 
+                                      CommandParameter="{x:Static local:InspectionCheckTypeEnum.CheckOUT}" />
+            </Border.GestureRecognizers>
+        </Border>
+        <Border 
+            Stroke="#bfdbfe"
+            StrokeThickness="1.5"   
+            StrokeShape ="RoundRectangle 8"
+            BackgroundColor="#eff6ff"
+            Padding="16">
+
+            <HorizontalStackLayout Spacing="12">
+                <Border 
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Stroke ="White"
+                        BackgroundColor="White"
+                        StrokeShape ="RoundRectangle 8"
+                        Padding="8">
+                    <Image Source="car.svg"></Image>
+                </Border>
+
+                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                    <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                        <Label Text="Check Out" 
+                               FontSize="16" 
+                               TextColor="#333333" 
+                               HorizontalTextAlignment="Start" 
+                               FontFamily="sans-serif" />
+                        <Label 
+                            MaxLines="2"
+                            WidthRequest="280"
+                            LineBreakMode="WordWrap"
+                            Text="Vehicle rental inspection - document existing damages before handover" 
+                            FontSize="12"
+                            TextColor="#4A5565"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToInInspectionCommand}" 
+                          CommandParameter="{x:Static local:InspectionCheckTypeEnum.CheckIN}" />
+            </Border.GestureRecognizers>
+        </Border>
+        <Border 
+                Stroke="#e9d5ff"
+                StrokeThickness="1.5"
+                StrokeShape ="RoundRectangle 8"
+                BackgroundColor="#faf5ff"
+                Padding="16">
+
+            <HorizontalStackLayout Spacing="12">
+                <Border 
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    Stroke ="White"
+                    BackgroundColor="White"
+                    StrokeShape ="RoundRectangle 8"
+                    Padding="8">
+                    <Image Source="clock2.svg"></Image>
+                </Border>
+
+                <VerticalStackLayout Spacing="2" VerticalOptions="Center">
+                    <Label Text="Partial Check Out" 
+                           FontSize="16" 
+                           TextColor="#333333" 
+                           HorizontalTextAlignment="Start" 
+                           FontFamily="sans-serif" />
+                    <Label 
+                            MaxLines="2"
+                            WidthRequest="280"
+                            LineBreakMode="WordWrap"
+                            Text="Quick inspection for short-term rentals or specific vehicle areas" 
+                            FontSize="12"
+                            TextColor="#4A5565"/>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+
+</ContentPage>

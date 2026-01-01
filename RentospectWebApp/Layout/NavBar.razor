@@ -1,0 +1,47 @@
+﻿
+@inject AuthStateProvider AuthStateProvider
+@inject NavigationManager  NavigationManager
+
+<nav class="nav-root" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner" style="width:100%">
+        <!-- Brand -->
+        <a class="brand" href="/">
+            <span class="brand-primary">Rentospect</span>
+            <span class="brand-sub">For Next-Gen...</span>
+        </a>
+
+        <!-- Hamburger for mobile -->
+        <button class="hamburger" @onclick="ToggleMobile" aria-label="Toggle navigation" aria-expanded="@_mobileOpen">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <!-- Links -->
+        <div class="nav-center @( _mobileOpen ? "open" : "" )">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Home</NavLink>
+            <NavLink class="nav-link" href="admin/manage-companies">Company Settings</NavLink>
+            <NavLink class="nav-link" href="admin/manage-branches">Branches</NavLink>
+            <NavLink class="nav-link" href="admin/manage-users">Users</NavLink>
+            <NavLink class="nav-link" href="admin/manage-carclasses">Car Classes</NavLink>
+            <NavLink class="nav-link" href="admin/manage-cars">Cars</NavLink>
+            <NavLink class="nav-link" href="admin/manage-damages">Damages</NavLink>
+            <NavLink class="nav-link" href="admin/upload-excel">Upload</NavLink>
+        </div>
+
+        <!-- Actions -->
+        <div class="nav-right">
+            <a class="btn-primary" @onclick="LogoutAsync">Logout</a>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private bool _mobileOpen = false;
+    private void ToggleMobile() => _mobileOpen = !_mobileOpen;
+    private async Task LogoutAsync()
+    {
+        await AuthStateProvider.SetLogoutAsync();
+        NavigationManager.NavigateTo("auth/login", replace: true);
+    }
+}

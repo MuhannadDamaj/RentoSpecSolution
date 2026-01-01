@@ -1,0 +1,297 @@
+﻿@page "/admin/manage-carclasses"
+@inject ICarClassApi CarClassApi
+@inject ICompanyApi CompanyApi
+@inject IDamageApi  DamageApi
+@inject ICarClassDamageApi CarClassDamageApi
+@inject AuthStateProvider AuthStateProvider
+@inject NavigationManager NavigationManager
+@inject IUploadApi UploadApi
+
+<div class="container">
+    <h1 class="page-title">Car Classes</h1>
+    <hr class="divider" />
+    <div class="template-download">
+        <button class="btn-download" @onclick="DownloadCarClassTemplate">
+            <i class="bi bi-download"></i> Download Car Classes Template
+        </button>
+    </div>
+    <div class="upload-container">
+        <label class="upload-box">
+            <InputFile OnChange="OnInputFileChange" class="d-none" accept=".xlsx" />  <!-- Hidden input -->
+            <div class="upload-content">
+                <i class="bi bi-cloud-arrow-up upload-icon"></i>
+                <p class="upload-title">Upload Car Classes Excel File</p>
+                <p class="upload-subtitle">Drag & drop or click to browse</p>
+            </div>
+        </label>
+
+        <!-- Upload info directly under the box -->
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="upload-info mt-2">@Message</div>
+        }
+    </div>
+    <hr class="divider" />
+    <div class="d-flex justify-content-between mb-3">
+        <button class="btn btn-primary" @onclick="ShowAddCarClass">
+            <i class="bi bi-plus-circle me-2"></i> Add Car Class
+        </button>
+        <input class="form-control w-25" placeholder="Search..." @bind="searchTerm" />
+    </div>
+
+    <!-- Car Class Table -->
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Company</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var carClass in FilteredCarClasses)
+            {
+                <tr>
+                    <td>@carClass.Name</td>
+                    <td>@carClass.Description</td>
+                    <td>@GetCompanyName(carClass.CompanyID)</td>
+                    <td>
+                        @if (carClass.IsActive)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactive</span>
+                        }
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-info me-1" @onclick="() => EditCarClass(carClass)">
+                            <i class="bi bi-pencil-square" fs-6></i>
+                        </button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteCarClass(carClass)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" @onclick="() => GenerateMissingCarClassDamages(carClass)">
+                            <i class="bi bi-eye"></i> <!-- eye icon for details -->
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (showAddForm)
+    {
+        <div class="card p-3 mb-4">
+            <div class="row">
+                <EditForm Model="_carClassDto" OnValidSubmit="SaveCarClassAsync">
+                    <DataAnnotationsValidator />
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="m-0">Add/Edit CarClass</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Class Name</label>
+                                            <InputText class="form-control" @bind-Value="_carClassDto.Name"></InputText>
+                                            <ValidationMessage For="() => _carClassDto.Name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Class Description</label>
+                                            <InputText class="form-control" @bind-Value="_carClassDto.Description"></InputText>
+                                            <ValidationMessage For="() => _carClassDto.Description" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Company</label>
+                                            <InputSelect disabled="true" class="form-control" @bind-Value="_carClassDto.CompanyID">
+                                                <option value="0">Select Company</option>
+                                                @foreach (var comp in _companies)
+                                                {
+                                                    <option value="@comp.ID">@comp.Name</option>
+                                                }
+                                            </InputSelect>
+                                            <ValidationMessage For="() => _carClassDto.CompanyID" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <div>
+                                    <button type="button" class="btn-cancel" @onclick="Cancel">Cancel</button>
+                                    <button type="submit" class="btn-save">Save Class</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </EditForm>
+            </div>
+
+        </div>
+    }
+
+</div>
+@code {
+    private List<CarClassDto> _carClassesDto = new List<CarClassDto>();
+    private CarClassDto _carClassDto = new();
+    private CompanyDto[] _companies = [];
+    public bool _isBusy;
+    public string? _errorMessage;
+    private string Message;
+    private UploadResultDto UploadResult;
+
+    private string searchTerm;
+    private bool showAddForm = false;
+    private IEnumerable<CarClassDto> FilteredCarClasses =>
+    string.IsNullOrWhiteSpace(searchTerm)
+        ? _carClassesDto
+        : _carClassesDto.Where(c => c.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+    private void EditCarClass(CarClassDto carClassDto)
+    {
+        _carClassDto = new CarClassDto
+        {
+            ID = carClassDto.ID,
+            CompanyID = carClassDto.CompanyID,
+            Description = carClassDto.Description,
+            IsActive = carClassDto.IsActive,
+            Name = carClassDto.Name
+        };
+        showAddForm = true;
+    }
+
+    private async Task DeleteCarClass(CarClassDto carClassDto)
+    {
+        if (carClassDto != null)
+        {
+            bool confirmed = true;
+            if (confirmed)
+            {
+                var carClassBeUpdated = _carClassesDto.FirstOrDefault(clss => clss.ID.Equals(carClassDto.ID));
+                if (carClassBeUpdated != null)
+                {
+                    carClassBeUpdated.IsActive = false;
+                    await CarClassApi.SaveCarClassesAsync(carClassBeUpdated);
+                    await LoadCarClasses();
+                }
+            }
+        }
+    }
+    private void ShowAddCarClass()
+    {
+        _carClassDto = new CarClassDto(); // Reset for new entry
+        _carClassDto.CompanyID = AuthStateProvider._user.CompanyID;
+        showAddForm = true;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _companies = await CompanyApi.GetCompaniesAsync();
+        await LoadCarClasses();
+    }
+    private async Task LoadCarClasses() =>
+    _carClassesDto = (await CarClassApi.GetCarClassesAsync()).ToList();
+    private void OnEditCurrency(CarClassDto carClass)
+    {
+        _carClassDto = carClass;
+    }
+    private async Task SaveCarClassAsync()
+    {
+        try
+        {
+            _isBusy = true;
+            var response = await CarClassApi.SaveCarClassesAsync(_carClassDto);
+            if (!response.isSuccess)
+            {
+                _errorMessage = response.erroMessage ?? "unknown Error ..";
+                return;
+            }
+            await LoadCarClasses();      // reload the list
+            _carClassDto = new CarClassDto(); // clear form for new entry
+            showAddForm = false;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = ex.Message;
+        }
+        finally
+        {
+            _isBusy = false;
+        }
+    }
+    private string GetCompanyName(int id)
+    {
+        var comp = _companies.FirstOrDefault(c => c.ID == id);
+        return comp?.Name ?? "-";
+    }
+    private void Cancel()
+    {
+        // Reset the model
+        _carClassDto = new CarClassDto();
+
+        // Hide the form
+        showAddForm = false;
+    }
+    private async Task GenerateMissingCarClassDamages(CarClassDto carClassDto)
+    {
+        var damages = await DamageApi.GetDamagesAsync();
+        var carClassDamages = await CarClassDamageApi.GetCarClassDamagesByCarClassIDAsync(carClassDto.ID);
+        var carClassDamagesIds = carClassDamages.Select(ccd => ccd.DamageID);
+        var missingCarClassDamages = damages.Where(dm => !carClassDamagesIds.Contains(dm.ID));
+        foreach (var damage in missingCarClassDamages)
+        {
+            CarClassDamageDto carClassDamageDto = new CarClassDamageDto()
+            {
+                CarClassID = carClassDto.ID,
+                DamageID = damage.ID,
+                Price = 0,
+                IsActive = true
+            };
+            await CarClassDamageApi.SaveCarClassDamageAsync(carClassDamageDto);
+        }
+        NavigationManager.NavigateTo($"/admin/manage-carclassdamages/{carClassDto.ID}");
+    }
+    private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file == null)
+        {
+            Message = "No file selected!";
+            return;
+        }
+
+        using var ms = new MemoryStream();
+        await file.OpenReadStream(maxAllowedSize: 20 * 1024 * 1024).CopyToAsync(ms);
+        ms.Position = 0;
+
+        var content = new MultipartFormDataContent();
+        var fileContent = new StreamContent(ms);
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+        content.Add(fileContent, "file", file.Name);
+
+        try
+        {
+            UploadResult = await UploadApi.UploadExcel(AuthStateProvider._user.CompanyID, content);
+            Message = "Upload finished!";
+            await LoadCarClasses();
+        }
+
+        catch (Exception ex)
+        {
+            Message = $"Upload failed: {ex.Message}";
+        }
+    }
+    private void DownloadCarClassTemplate()
+    {
+        NavigationManager.NavigateTo("/templates/rentospect_car_classes_template.xlsx", forceLoad: true);
+    }
+}

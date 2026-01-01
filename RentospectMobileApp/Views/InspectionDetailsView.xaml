@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="RentospectMobileApp.Views.InspectionDetailsView"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Name="InspectionDetailsPage">
+    <ScrollView>
+        <VerticalStackLayout Margin="10,0,10,0"  Spacing="5">
+            <Grid  
+                HorizontalOptions="Fill" 
+                RowDefinitions="Auto,Auto" ColumnDefinitions="30,*">
+                <Image 
+                HorizontalOptions="End"
+                Source="arrowleftblack.svg" 
+                Grid.Column="0"
+                HeightRequest="20"
+                WidthRequest="20"
+                Grid.Row="0" 
+                Grid.RowSpan="2"></Image>
+                <Label Grid.Column="1" 
+               Grid.Row="0" 
+               TextColor="#333333"
+               Text="Inspection Details" 
+               FontFamily="sans-serif"
+               FontSize="20"
+               Padding="10,0,0,0"/>
+                <Label Grid.Column="1" 
+               Grid.Row="1" 
+               Padding="10,0,0,0"
+               TextColor="#333333"
+               Text="{Binding PlateNumber}" 
+               FontFamily="sans-serif"
+               FontSize="14"/>
+            </Grid>
+            <Border 
+                StrokeThickness="1"
+                Padding="16"
+                StrokeShape ="RoundRectangle 12"
+                BackgroundColor="White">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="*,*">
+                    <Label  FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Number Plate:" 
+                    Grid.Column="0" 
+                    Grid.Row="0" 
+                    Margin="0,0,0,5"/>
+                    <Label  FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Agreement:" 
+                    Grid.Column="0" 
+                    Grid.Row="1"
+                    Margin="0,0,0,5"/>
+                    <Label  FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Driver:" 
+                    Grid.Column="0" 
+                    Grid.Row="2"
+                    Margin="0,0,0,5"/>
+                    <Label  FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Date:" 
+                    Grid.Column="0" 
+                    Grid.Row="3"
+                    Margin="0,0,0,5"/>
+                    <Label  FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="Type:" 
+                    Grid.Column="0" 
+                    Grid.Row="4"/>
+
+                    <Label  HorizontalOptions="End"
+                    FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="{Binding PlateNumber}" 
+                    Grid.Column="1" 
+                    Grid.Row="0" 
+                    Margin="0,0,0,5"/>
+                    <Label  HorizontalOptions="End"
+                    FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="{Binding AgreementNumber}" 
+                    Grid.Column="1" 
+                    Grid.Row="1"
+                    Margin="0,0,0,5"/>
+                    <Label  HorizontalOptions="End"
+                    FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="{Binding DriverName}" 
+                    Grid.Column="1" 
+                    Grid.Row="2"
+                    Margin="0,0,0,5"/>
+                    <Label  HorizontalOptions="End"
+                    FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="{Binding InspectionDate}" 
+                    Grid.Column="1" 
+                    Grid.Row="3"
+                    Margin="0,0,0,5"/>
+                    <Label  HorizontalOptions="End"
+                    FontSize="16"
+                    FontFamily="sans-serif"
+                    TextColor="#333333"
+                    Text="{Binding InspectionCheckType}" 
+                    Grid.Column="1" 
+                    Grid.Row="4"/>
+                </Grid>
+            </Border>
+            <Border 
+                Margin="0,10,0,0"
+                StrokeThickness="1"
+                StrokeShape ="RoundRectangle 12"
+                BackgroundColor="White">
+                <VerticalStackLayout>
+                    <Label 
+                        FontSize="16" 
+                        TextColor="#333333" 
+                        HorizontalTextAlignment="Start" 
+                        FontFamily="sans-serif" 
+                        Text="Identified Damages" Margin="5,5,5,0"></Label>
+                    <ScrollView>
+                        <VerticalStackLayout Padding="5">
+                            <CollectionView ItemsSource="{Binding Damages}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <VerticalStackLayout Padding="5" Margin="2">
+                                            <!-- Header -->
+                                            <HorizontalStackLayout Spacing="3">
+                                                <Image VerticalOptions="Center" HeightRequest="20" Source="check_circle.svg"></Image>
+                                                <Label  VerticalOptions="Center" Text="{Binding PartName}"
+                                                       FontAttributes="Bold"
+                                                       FontSize="14" />
+                                                <Label  VerticalOptions="Center" Text="{Binding LaborOperation}"
+                                                FontAttributes="Italic"
+                                                FontSize="13"
+                                                TextColor="Gray" />
+                                            </HorizontalStackLayout>
+
+                                            <!-- Damage Details -->
+                                            <CollectionView ItemsSource="{Binding DamageDetails}">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Text="{Binding .}" FontSize="12" TextColor="#333333" Margin="25,0,0,0"/>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+                                        </VerticalStackLayout>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </Border>
+            <Border 
+                Margin="0,10,0,0"
+                StrokeThickness="1"
+                StrokeShape ="RoundRectangle 12"
+                BackgroundColor="White">
+                <VerticalStackLayout>
+                    <HorizontalStackLayout>
+                        <CheckBox IsChecked="{Binding IsAgreeChecked}" VerticalOptions="Center" x:Name="AgreeCheckBox" Color="#007AFF" />
+                        <Label 
+                            FontSize="16" 
+                            TextColor="#333333" 
+                            FontFamily="sans-serif" 
+                            VerticalOptions="Center"
+                            Text="Accept terms and conditions" ></Label>
+                    </HorizontalStackLayout>
+                    <Label Margin="30,0,0,10" TextColor="#848484" Text="I agree to the vehicle inspection terms and conditions and acknowledge the accuracy of the damage assessment."/>
+
+                </VerticalStackLayout>
+            </Border>
+            <Border 
+                    Margin="0,10,0,0"
+                    StrokeThickness="1"
+                    Padding="16"
+                    StrokeShape ="RoundRectangle 12"
+                    BackgroundColor="White">
+                <VerticalStackLayout>
+                    <Label 
+                            FontSize="16" 
+                            TextColor="#333333" 
+                            HorizontalTextAlignment="Start" 
+                            FontFamily="sans-serif" 
+                            Text="Driver Signature (Optional)" Margin="0,0,0,20"></Label>
+                    <VerticalStackLayout Padding="5">
+
+                        <toolkit:DrawingView
+                                     x:Name="SignaturePad"
+                                     BackgroundColor="#F5F5F5"
+                                     IsMultiLineModeEnabled="True"
+                                     ShouldClearOnFinish="False"
+                                     LineColor="Black"
+                                     LineWidth="3"
+                                     DrawingLineCompleted ="SignaturePad_DrawingLineCompleted"
+                                     Lines="{Binding SignatureLines}"
+                                     HeightRequest="200"/>
+                    </VerticalStackLayout>
+                    <Border HeightRequest="40" StrokeShape ="RoundRectangle 8">
+                        <Grid ColumnDefinitions="*,*">
+                            <Image Grid.Column="0" HeightRequest="20" WidthRequest="20"
+                                    Source="rotate_ccs_black.png"/>
+                            <Label 
+                                    HorizontalOptions="Start" 
+                                    VerticalOptions="Center" 
+                                    Grid.Column="1" 
+                                    Text="Clear"></Label>
+                        </Grid>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ClearSignatureCommand}">
+                            </TapGestureRecognizer>
+                        </Border.GestureRecognizers>
+                    </Border>
+                    <Label
+                        HorizontalOptions="Center"
+                        FontFamily="sans-serif"
+                        FontSize="12"
+                        TextColor="#6A7282"
+                        Text="Sign above with your finger or stylus"></Label>
+                </VerticalStackLayout>
+            </Border>
+            <Border 
+                    BackgroundColor="#4ca1af" 
+                    HeightRequest="40"  
+                    StrokeShape ="RoundRectangle 8">
+                <Grid ColumnSpacing="10"  ColumnDefinitions="*,*">
+                    <Image 
+                    Grid.Column="0" 
+                    HeightRequest="20" 
+                    WidthRequest="20"
+                    HorizontalOptions="End" 
+                    Source="email.svg"/>
+                    <Label 
+                        TextColor="White" 
+                        HorizontalOptions="Start" 
+                        VerticalOptions="Center" 
+                        Grid.Column="1" 
+                        FontSize="14"
+                        Text="Submit"></Label>
+                </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SubmitCommand}" 
+                                          CommandParameter="{x:Reference SignaturePad}">
+                    </TapGestureRecognizer>
+                </Border.GestureRecognizers>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+
+
+</ContentPage>

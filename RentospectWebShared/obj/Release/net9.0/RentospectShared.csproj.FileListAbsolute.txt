@@ -1,0 +1,12 @@
+C:\RealEstate\RealEstateGCC\RentospectWebShared\bin\Release\net9.0\RentospectShared.deps.json
+C:\RealEstate\RealEstateGCC\RentospectWebShared\bin\Release\net9.0\RentospectShared.dll
+C:\RealEstate\RealEstateGCC\RentospectWebShared\bin\Release\net9.0\RentospectShared.pdb
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.csproj.AssemblyReference.cache
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.GeneratedMSBuildEditorConfig.editorconfig
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.AssemblyInfoInputs.cache
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.AssemblyInfo.cs
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.csproj.CoreCompileInputs.cache
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.dll
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\refint\RentospectShared.dll
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\RentospectShared.pdb
+C:\RealEstate\RealEstateGCC\RentospectWebShared\obj\Release\net9.0\ref\RentospectShared.dll
