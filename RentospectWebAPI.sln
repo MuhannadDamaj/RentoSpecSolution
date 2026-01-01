@@ -10,6 +10,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectWebApp", "..\RentospectWebApp\RentospectWebApp.csproj", "{69479C6C-26C3-4795-ACE4-6C7FDB1F8684}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectMobileApp", "..\RentospectMobileApp\RentospectMobileApp.csproj", "{5245E85B-A1D0-4F9E-8A29-773DDBB28275}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B9B1D344-8676-4E35-A967-717DF5BCEF24} = {B9B1D344-8676-4E35-A967-717DF5BCEF24}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RentospectMobileApplication", "..\RentospectMobileApplication\RentospectMobileApplication.csproj", "{96116C09-5613-4EA0-B92A-C0D609AECE01}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +39,12 @@ Global
 		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5245E85B-A1D0-4F9E-8A29-773DDBB28275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96116C09-5613-4EA0-B92A-C0D609AECE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96116C09-5613-4EA0-B92A-C0D609AECE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96116C09-5613-4EA0-B92A-C0D609AECE01}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{96116C09-5613-4EA0-B92A-C0D609AECE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96116C09-5613-4EA0-B92A-C0D609AECE01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96116C09-5613-4EA0-B92A-C0D609AECE01}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

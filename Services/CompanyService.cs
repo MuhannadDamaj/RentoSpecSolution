@@ -86,6 +86,11 @@ namespace RentospectWebAPI.Services
                                                                                   TermsAndConditionsMessage = c.TermsAndConditionsMessage,
                                                                                   PartialCheckOutEmailTemplate = c.PartialCheckOutEmailTemplate,
                                                                                   IsActive = c.IsActive,
+                                                                                  CreatedAt = c.CreatedAt,
+                                                                                  CreatedBy = c.CreatedBy,
+                                                                                  LogoBytes = c.LogoBytes,
+                                                                                  UpdatedAt = c.UpdatedAt,
+                                                                                  UpdatedBy = c.UpdatedBy,
                                                                               }).ToArrayAsync();
         public async Task<CompanyDto> GetCompanyByIDAsync(int companyID) => await _context.Companies
                                                                              .Where(cmp => cmp.IsActive
@@ -103,7 +108,11 @@ namespace RentospectWebAPI.Services
                                                                                  TermsAndConditionsMessage = c.TermsAndConditionsMessage,
                                                                                  PartialCheckOutEmailTemplate = c.PartialCheckOutEmailTemplate,
                                                                                  IsActive = c.IsActive,
-                                                                                 LogoBytes = c.LogoBytes
+                                                                                 LogoBytes = c.LogoBytes,
+                                                                                 UpdatedAt = c.UpdatedAt,
+                                                                                 UpdatedBy = c.UpdatedBy,
+                                                                                 CreatedAt = c.CreatedAt,
+                                                                                 CreatedBy = c.CreatedBy
                                                                              }).FirstOrDefaultAsync();
     }
 }

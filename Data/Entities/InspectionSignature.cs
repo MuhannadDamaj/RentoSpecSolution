@@ -1,4 +1,4 @@
-﻿using RentospectWebAPI.Data.CommonEnum;
+﻿using RentospectShared.CommonEnum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

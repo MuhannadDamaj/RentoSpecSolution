@@ -11,6 +11,8 @@ namespace RentospectWebAPI.Endpoints
             var branchGroup = app.MapGroup("/api/branches").RequireAuthorization();
             branchGroup.MapGet("", async (BranchService branchService) =>
             Results.Ok(await branchService.GetBranchesAsync()));
+            branchGroup.MapGet("{companyId:int}", async (int companyId,BranchService branchService) =>
+            Results.Ok(await branchService.GetBranchesByCompanyIDAsync(companyId)));
             branchGroup.MapPost("", async (BranchDto dto, BranchService branchService) =>
             Results.Ok(await branchService.SaveBranchAsync(dto)))
                 .RequireAuthorization(r => r.RequireRole(nameof(UserRoleEnum.Administrator)));

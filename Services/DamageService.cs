@@ -63,6 +63,10 @@ namespace RentospectWebAPI.Services
                                                                                   IsActive = c.IsActive,
                                                                                   ID = c.ID,
                                                                                   ShortDescription = c.ShortDescription,
+                                                                                  CreatedAt = c.CreatedAt,
+                                                                                  CreatedBy = c.CreatedBy,
+                                                                                  UpdatedAt = c.UpdatedAt,
+                                                                                  UpdatedBy = c.UpdatedBy,
                                                                               }).ToArrayAsync();
     }
 }

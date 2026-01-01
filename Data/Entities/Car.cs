@@ -26,8 +26,5 @@ namespace RentospectWebAPI.Data.Entities
         [ForeignKey(nameof(CarClassId))]
         public virtual CarClass CarClass { get; set; }
         public bool IsActive { get; set; } = true;
-
-
-
     }
 }

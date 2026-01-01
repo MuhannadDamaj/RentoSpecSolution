@@ -1,5 +1,4 @@
-﻿using RentospectWebAPI.Data.CommonEnum;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RentospectWebAPI.Data.Entities
@@ -8,13 +7,12 @@ namespace RentospectWebAPI.Data.Entities
     {
         [Key]
         public Guid ID { get; set; }
-        public byte[] Image { get; set; }
-        public string ImageURL { get; set; }
-        [Required]
+        public string FileName { get; set; }
+        public string FilePath { get; set; }
+        public int OrderIndex { get; set; }
         public Guid InspectionID { get; set; }
         [ForeignKey("InspectionID")]
         public Inspection Inspection { get; set; }
         public bool IsActive { get; set; }
-        public InspectionCheckTypeEnum CheckType { get; set; }
     }
 }

@@ -51,5 +51,23 @@ namespace RentospectWebAPI.Services
                                                                                   Description = c.Description,
                                                                                   IsActive = c.IsActive,
                                                                               }).ToArrayAsync();
+        public async Task<CarClassDto[]> GetCarClassesByCompanyIDAsync(int companyId) => await _context.CarClasses
+                                                                                                        .Where(carClass =>
+                                                                                                                           carClass.IsActive
+                                                                                                                           &&
+                                                                                                                           carClass.CompanyID == companyId)
+                                                                                                              .AsNoTracking()
+                                                                                                              .Select(c => new CarClassDto
+                                                                                                              {
+                                                                                                                  ID = c.ID,
+                                                                                                                  Name = c.Name,
+                                                                                                                  CompanyID = c.CompanyID,
+                                                                                                                  Description = c.Description,
+                                                                                                                  IsActive = c.IsActive,
+                                                                                                                  CreatedAt = c.CreatedAt,
+                                                                                                                  CreatedBy = c.CreatedBy,
+                                                                                                                  UpdatedAt = c.UpdatedAt,
+                                                                                                                  UpdatedBy = c.UpdatedBy,
+                                                                                                              }).ToArrayAsync();
     }
 }

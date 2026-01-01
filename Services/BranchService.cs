@@ -60,8 +60,29 @@ namespace RentospectWebAPI.Services
                                                                                   CompanyID = c.CompanyID,
                                                                                   Email = c.Email,
                                                                                   Notes = c.Notes,
-                                                                                  PhoneNumber= c.PhoneNumber,
+                                                                                  PhoneNumber = c.PhoneNumber,
                                                                                   IsActive = c.IsActive,
+                                                                                  CreatedAt = c.CreatedAt,
+                                                                                  CreatedBy = c.CreatedBy,
+                                                                                  UpdatedAt = c.UpdatedAt,
+                                                                                  UpdatedBy = c.UpdatedBy,
                                                                               }).ToArrayAsync();
+        public async Task<BranchDto[]> GetBranchesByCompanyIDAsync(int companyId) => await _context.Branches
+                                                                                                   .Where(branch => branch.IsActive
+                                                                                                                    &&
+                                                                                                                    branch.CompanyID == companyId)
+                                                                                                   .AsNoTracking()
+                                                                                                    .Select(b => new BranchDto
+                                                                                                    {
+                                                                                                        ID = b.ID,
+                                                                                                        Name = b.Name,
+                                                                                                        Address = b.Address,
+                                                                                                        Code = b.Code,
+                                                                                                        CompanyID = b.CompanyID,
+                                                                                                        Email = b.Email,
+                                                                                                        Notes = b.Notes,
+                                                                                                        PhoneNumber = b.PhoneNumber,
+                                                                                                        IsActive = b.IsActive,
+                                                                                                    }).ToArrayAsync();
     }
 }

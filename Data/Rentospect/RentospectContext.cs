@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RentospectWebAPI.Data.Entities;
+using RentospectWebAPI.Data.Entities.AiEntities;
 using System.Security.Claims;
 
 namespace RentospectWebAPI.Data.Rentospect
@@ -30,6 +32,11 @@ namespace RentospectWebAPI.Data.Rentospect
         public DbSet<CarMake> CarMakes { get; set; }
         public DbSet<CarModel> CarModels { get; set; }
         public DbSet<CarCategory> CarCategories { get; set; }
+        public DbSet<InspectionType> InspectionTypes { get; set; }
+        public DbSet<InspectionResult> InspectionResults { get; set; }
+        public DbSet<DamagedPart> DamagedParts { get; set; }
+        public DbSet<AILog>  aILogs { get; set; }
+
         public IPasswordHasher<User> _passwordHasher { get; }
         public IHttpContextAccessor _httpContextAccessor { get; }
 
@@ -40,7 +47,7 @@ namespace RentospectWebAPI.Data.Rentospect
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //        //TODO:remove the below code ..
+
             User user = new User()
             {
                 ID = 1,

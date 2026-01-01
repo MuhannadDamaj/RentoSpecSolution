@@ -61,5 +61,24 @@ namespace RentospectWebAPI.Services
                                                                         CarMake = c.CarMake,
                                                                         CarModel = c.CarModel
                                                                     }).ToArrayAsync();
+        public async Task<CarDto[]> GetCarsByCompanyIDAsync(int companyId) => await _context.Cars
+                                                                                            .Where(car => car.IsActive && car.CarClass.CompanyID == companyId)
+                                                                                            .AsNoTracking()
+                                                                                            .Select(c => new CarDto
+                                                                                            {
+                                                                                                ID = c.ID,
+                                                                                                CarClassId = c.CarClassId,
+                                                                                                Year = c.Year,
+                                                                                                Color = c.Color,
+                                                                                                MVA_Number = c.MVA_Number,
+                                                                                                PlateNumber = c.PlateNumber,
+                                                                                                IsActive = c.IsActive,
+                                                                                                CarMake = c.CarMake,
+                                                                                                CarModel = c.CarModel,
+                                                                                                CreatedAt = c.CreatedAt,
+                                                                                                CreatedBy = c.CreatedBy,
+                                                                                                UpdatedAt = c.UpdatedAt,
+                                                                                                UpdatedBy = c.UpdatedBy,
+                                                                                            }).ToArrayAsync();
     }
 }

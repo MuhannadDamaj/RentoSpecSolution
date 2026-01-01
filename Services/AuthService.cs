@@ -56,7 +56,7 @@ namespace RentospectWebAPI.Services
             //Generate Jtw Tocken
             var jwt = GenerateJtwToken(user);
             var LoggedInUser = new LoggedInUser(user.ID,user.FullName,nameof(UserRoleEnum.Administrator),user.CompanyID,jwt);
-            return new AuthResponseDto(LoggedInUser);
+                return new AuthResponseDto(LoggedInUser);
         }
         public string GenerateJtwToken(User user)
         {

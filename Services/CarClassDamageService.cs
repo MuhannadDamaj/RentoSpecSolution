@@ -51,5 +51,25 @@ namespace RentospectWebAPI.Services
                                                                                                        DamageID = c.DamageID,
                                                                                                        Price = c.Price
                                                                                                    }).ToArrayAsync();
+        public async Task<CarClassDamageDto[]> GetCarClassDamagesByCompanyIDAsync(int companyId)
+        {
+            return await _context.CarClassDamages
+                            .Where(ccDamage => ccDamage.IsActive
+                                               && 
+                                               ccDamage.CarClass.CompanyID == companyId)
+                            .AsNoTracking()
+                            .Select(c => new CarClassDamageDto
+                            {
+                                ID = c.ID,
+                                IsActive = c.IsActive,
+                                CarClassID = c.CarClassID,
+                                DamageID = c.DamageID,
+                                Price = c.Price,
+                                CreatedAt = c.CreatedAt,
+                                CreatedBy = c.CreatedBy,
+                                UpdatedAt = c.UpdatedAt,
+                                UpdatedBy = c.UpdatedBy,
+                            }).ToArrayAsync();
+        }
     }
 }

@@ -22,6 +22,123 @@ namespace RentospectWebAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("RentospectWebAPI.Data.Entities.AiEntities.AILog", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InspectionJson")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ReceivedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("aILogs");
+                });
+
+            modelBuilder.Entity("RentospectWebAPI.Data.Entities.AiEntities.DamagedPart", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<double>("ConfidenceScore")
+                        .HasColumnType("float");
+
+                    b.Property<double>("DamageSeverityScore")
+                        .HasColumnType("float");
+
+                    b.Property<Guid>("InspectionResultID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("LaborOperation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("LaborRepairUnits")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ListOfDamages")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("PaintLaborUnits")
+                        .HasColumnType("float");
+
+                    b.Property<string>("PartName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("RemovalRefitUnits")
+                        .HasColumnType("float");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("DamagedParts");
+                });
+
+            modelBuilder.Entity("RentospectWebAPI.Data.Entities.AiEntities.InspectionResult", b =>
+                {
+                    b.Property<Guid>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApiKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppFormData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CaseId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DetectedAngle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GeoLocation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InspectionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LicensePlateReading")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UploadStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VehicleType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Vendor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Version")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("InspectionResults");
+                });
+
             modelBuilder.Entity("RentospectWebAPI.Data.Entities.Branch", b =>
                 {
                     b.Property<int>("ID")
@@ -486,19 +603,6 @@ namespace RentospectWebAPI.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Currencies");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = 1,
-                            CreatedAt = new DateTime(2020, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            CreatedBy = "Muhannad Damaj",
-                            IsActive = true,
-                            Name = "US Dollar",
-                            Symbol = "USD",
-                            UpdatedAt = new DateTime(2020, 2, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedBy = "Muhannad Damaj"
-                        });
                 });
 
             modelBuilder.Entity("RentospectWebAPI.Data.Entities.Damage", b =>
@@ -553,15 +657,12 @@ namespace RentospectWebAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CarID")
+                    b.Property<int>("CarID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CaseID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CheckInDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CheckOutDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("CheckType")
                         .HasColumnType("int");
@@ -569,7 +670,18 @@ namespace RentospectWebAPI.Migrations
                     b.Property<int>("CompanyID")
                         .HasColumnType("int");
 
+                    b.Property<string>("DriverEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DriverName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InspectionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InspectionNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -582,13 +694,22 @@ namespace RentospectWebAPI.Migrations
                     b.Property<bool>("IsPending")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserID")
-                        .IsRequired()
+                    b.Property<bool>("IsTermsAndConditionsAgreed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PlateNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.Property<string>("SignatureBase64")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CompanyID");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
 
                     b.ToTable("Inspections");
                 });
@@ -623,14 +744,11 @@ namespace RentospectWebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("CheckType")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("Image")
+                    b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("FilePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -639,6 +757,9 @@ namespace RentospectWebAPI.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
 
@@ -675,6 +796,48 @@ namespace RentospectWebAPI.Migrations
                     b.HasIndex("InspectionID");
 
                     b.ToTable("InspectionSignatures");
+                });
+
+            modelBuilder.Entity("RentospectWebAPI.Data.Entities.InspectionType", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecommendationMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("InspectionTypes");
                 });
 
             modelBuilder.Entity("RentospectWebAPI.Data.Entities.User", b =>
@@ -800,17 +963,6 @@ namespace RentospectWebAPI.Migrations
                 });
 
             modelBuilder.Entity("RentospectWebAPI.Data.Entities.Configuration", b =>
-                {
-                    b.HasOne("RentospectWebAPI.Data.Entities.Company", "Company")
-                        .WithMany()
-                        .HasForeignKey("CompanyID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("RentospectWebAPI.Data.Entities.Inspection", b =>
                 {
                     b.HasOne("RentospectWebAPI.Data.Entities.Company", "Company")
                         .WithMany()

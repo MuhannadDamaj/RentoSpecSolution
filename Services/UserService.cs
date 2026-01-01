@@ -42,12 +42,14 @@ namespace RentospectWebAPI.Services
                 dbUser.Email = userDto.Email;
                 dbUser.FullName = userDto.FullName;
                 dbUser.IsActive = userDto.IsActive;
-                dbUser.PasswordHash = userDto.Password;
                 dbUser.PhoneNumber = userDto.PhoneNumber;
                 dbUser.Role = userDto.Role;
                 dbUser.BranchID = userDto.BranchID;
-                dbUser.PasswordHash = _passwordHasher.HashPassword(dbUser, userDto.Password);
-
+                if (userDto.ForcePasswordChange)
+                {
+                    dbUser.PasswordHash = userDto.Password;
+                    dbUser.PasswordHash = _passwordHasher.HashPassword(dbUser, userDto.Password);
+                }
                 _context.Users.Update(dbUser);
             }
 
@@ -66,6 +68,24 @@ namespace RentospectWebAPI.Services
                                                                                   Password = c.PasswordHash,
                                                                                   Role = c.Role,
                                                                                   PhoneNumber = c.PhoneNumber
+                                                                              }).ToArrayAsync();
+        public async Task<UserDto[]> GetUserByIDAsync(int id) => await _context.Users.Where(user => user.IsActive
+                                                                              && (user.ID == id || user.ID == -1))
+                                                                              .AsNoTracking()
+                                                                              .Select(c => new UserDto
+                                                                              {
+                                                                                  ID = c.ID,
+                                                                                  BranchID = c.BranchID,
+                                                                                  Email = c.Email,
+                                                                                  FullName = c.FullName,
+                                                                                  IsActive = c.IsActive,
+                                                                                  Password = c.PasswordHash,
+                                                                                  Role = c.Role,
+                                                                                  PhoneNumber = c.PhoneNumber,
+                                                                                  CreatedAt = DateTime.UtcNow,
+                                                                                  CreatedBy = c.CreatedBy,
+                                                                                  UpdatedAt = DateTime.UtcNow,
+                                                                                  UpdatedBy = c.UpdatedBy,
                                                                               }).ToArrayAsync();
     }
 }

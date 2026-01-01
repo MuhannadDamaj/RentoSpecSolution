@@ -30,7 +30,6 @@ namespace RentospectWebAPI.Data.Entities
 
         [ForeignKey("CompanyID")]
         public Company Company { get; set; }
-        
 
     }
 }
