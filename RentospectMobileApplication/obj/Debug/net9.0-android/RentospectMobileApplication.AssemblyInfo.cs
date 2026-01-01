@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RentospectMobileApplication")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+dfc60ebf10376f359010c5e60ff5c726abfd363c")]
 [assembly: System.Reflection.AssemblyProductAttribute("RentospectMobileApplication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RentospectMobileApplication")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
